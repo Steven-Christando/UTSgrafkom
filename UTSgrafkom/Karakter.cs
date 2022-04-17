@@ -65,6 +65,8 @@ namespace UTSgrafkom
             listObject.Add(badan);
             listObject.Add(google);
             listObject.Add(topi);
+
+            //coba tambah comment
         }
 
         public void load(float SizeX,float SizeY)
