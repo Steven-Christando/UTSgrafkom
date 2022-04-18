@@ -18,15 +18,23 @@ namespace UTSgrafkom
         int _vertexBufferObject;
         int _elementBufferObject;
         int _vertexArrayObject;
+
         public Shader _shader;
 
+        Matrix4 model = Matrix4.Identity;
         Matrix4 view;
         Matrix4 projection;
 
-        Vector3 objectCenter;
+        public List<Vector3> euler = new List<Vector3>();  // Sudut lokal, relatif terhadap objek yang bersangkutan.
+        public Vector3 objectCenter = Vector3.Zero;         // Titik tengah objek
+
+        public List<Asset3d> child = new List<Asset3d>();   // Sistem Hierarchical Object ==> List untuk menampung objek - objek child.
         public Asset3d(Vector3 color)
         {
             this._color = color;
+            euler.Add(Vector3.UnitX); // Masukkan sudut Euler di Constructor.
+            euler.Add(Vector3.UnitY);
+            euler.Add(Vector3.UnitZ);
         }
         public void load(string shadervert, string shaderfrag, float sizex, float sizey)
         {
@@ -34,8 +42,7 @@ namespace UTSgrafkom
             _vertexBufferObject = GL.GenBuffer();               //menyimpan vertex bisa warna, texture dll untuk dikirim ke GPU (cuman dikirim)
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, _vertexBufferObject);
-            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Count * Vector3.SizeInBytes,
-                _vertices.ToArray(), BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ArrayBuffer, _vertices.Count * Vector3.SizeInBytes,_vertices.ToArray(), BufferUsageHint.StaticDraw);
 
             _vertexArrayObject = GL.GenVertexArray();           //kasih tau GPU dibaginya datanya kek gmn
             GL.BindVertexArray(_vertexArrayObject);
@@ -72,7 +79,6 @@ namespace UTSgrafkom
             /*Matrix4 model = Matrix4.Identity * Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(time));*/
 
             /*kalo pake yang degree pake ini*/
-            Matrix4 model = Matrix4.Identity;
             model = temp;
             _shader.SetMatrix4("model", model);
             _shader.SetMatrix4("view", cameraView);
@@ -95,9 +101,17 @@ namespace UTSgrafkom
                 }
             }
         }
-
+        public void resetEuler()
+        {
+            euler.Clear();
+            euler.Add(Vector3.UnitX);
+            euler.Add(Vector3.UnitY);
+            euler.Add(Vector3.UnitZ);
+        }
+        #region object
         public void createEllipsoidWireframe(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
         {
+            objectCenter = new Vector3(x, y, z);
             var tempVertex = new Vector3();
             for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
             {
@@ -112,6 +126,7 @@ namespace UTSgrafkom
         }
         public void createSphereWireframe(float x, float y, float z, float radiusXY, float radiusZ)
         {
+            objectCenter = new Vector3(x, y, z);
             var tempVertex = new Vector3();
             for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
             {
@@ -120,41 +135,6 @@ namespace UTSgrafkom
                     tempVertex.X = radiusXY * MathF.Cos(v) * MathF.Cos(u) + x;
                     tempVertex.Y = radiusXY * MathF.Cos(v) * MathF.Sin(u) + y;
                     tempVertex.Z = radiusZ * MathF.Sin(v) + z;
-                    _vertices.Add(tempVertex);
-                }
-            }
-        }
-        public void createHyperboloidSatu(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 100.0f)
-            {
-                for (float v = -MathF.PI / 2.0f; v < MathF.PI / 2.0f; v += MathF.PI / 100.0f)
-                {
-                    tempVertex.X = radiusX * 1 / MathF.Cos(v) * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * 1 / MathF.Cos(v) * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * MathF.Tan(v) + z;
-                    _vertices.Add(tempVertex);
-                }
-            }
-        }
-        public void createHyperboloidDua(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 100.0f)
-            {
-                for (float v = -MathF.PI / 2.0f; v < MathF.PI / 2.0f; v += MathF.PI / 100.0f)
-                {
-                    tempVertex.X = radiusX * MathF.Tan(v) * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * MathF.Tan(v) * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * 1 / MathF.Cos(v) + z;
-                    _vertices.Add(tempVertex);
-                }
-                for (float v = -MathF.PI / 2.0f; v < 3 * MathF.PI / 2.0f; v += MathF.PI / 100.0f)
-                {
-                    tempVertex.X = radiusX * MathF.Tan(v) * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * MathF.Tan(v) * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * 1 / MathF.Cos(v) + z;
                     _vertices.Add(tempVertex);
                 }
             }
@@ -364,6 +344,7 @@ namespace UTSgrafkom
         }
         public void tabung(float _positionX, float _positionY, float _positionZ, float _radiusx, float _radiusy, float _radiusz)
         {
+            objectCenter = new Vector3(_positionX, _positionY, _positionZ);
             Vector3 temp_vector; float _pi = (float)Math.PI;
             for (float v = -20.0f; v <= _pi / 100; v += 0.01f)
             {
@@ -376,51 +357,6 @@ namespace UTSgrafkom
                 }
             }
         }
-        public void createElipticCone(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
-            {
-                for (float v = -10.0f; v < 10.0f; v += 1.0f)
-                {
-                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * v + z;
-                    _vertices.Add(tempVertex);
-                }
-            }
-        }
-        public void createElipticParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
-            {
-                for (float v = 0.0f; v < 5.0f; v += 0.01f)
-                {
-                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * v * v + z;
-                    _vertices.Add(tempVertex);
-                }
-            }
-        }
-        public void createHyperboloidParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 100.0f)
-            {
-                for (float v = 0.0f; v < 30.0f; v += 0.1f)
-                {
-                    tempVertex.X = radiusX * v * MathF.Tan(u) + x;
-                    tempVertex.Y = radiusY * v * 1 / MathF.Cos(v) + y;
-                    tempVertex.Z = radiusZ * v * v + z;
-                    _vertices.Add(tempVertex);
-                }
-            }
-        }
-
         public void createTorus(float x, float y, float z, float radMajor, float radMinor, float sectorCount, float stackCount)
         {
             objectCenter = new Vector3(x, y, z);
@@ -469,5 +405,100 @@ namespace UTSgrafkom
                 }
             }
         }
+        #endregion
+        #region transform
+        public void rotate(Vector3 pivot, Vector3 vector, float angle)
+        {
+            var radAngle = MathHelper.DegreesToRadians(angle);
+
+            var arbRotationMatrix = new Matrix4
+                (
+                new Vector4((float)(Math.Cos(radAngle) + Math.Pow(vector.X, 2.0f) * (1.0f - Math.Cos(radAngle))), (float)(vector.X * vector.Y * (1.0f - Math.Cos(radAngle)) + vector.Z * Math.Sin(radAngle)), (float)(vector.X * vector.Z * (1.0f - Math.Cos(radAngle)) - vector.Y * Math.Sin(radAngle)), 0),
+                new Vector4((float)(vector.X * vector.Y * (1.0f - Math.Cos(radAngle)) - vector.Z * Math.Sin(radAngle)), (float)(Math.Cos(radAngle) + Math.Pow(vector.Y, 2.0f) * (1.0f - Math.Cos(radAngle))), (float)(vector.Y * vector.Z * (1.0f - Math.Cos(radAngle)) + vector.X * Math.Sin(radAngle)), 0),
+                new Vector4((float)(vector.X * vector.Z * (1.0f - Math.Cos(radAngle)) + vector.Y * Math.Sin(radAngle)), (float)(vector.Y * vector.Z * (1.0f - Math.Cos(radAngle)) - vector.X * Math.Sin(radAngle)), (float)(Math.Cos(radAngle) + Math.Pow(vector.Z, 2.0f) * (1.0f - Math.Cos(radAngle))), 0),
+                Vector4.UnitW
+                );
+
+            model *= Matrix4.CreateTranslation(-pivot);
+            model *= arbRotationMatrix;
+            model *= Matrix4.CreateTranslation(pivot);
+
+            for (int i = 0; i < 3; i++)
+            {
+                euler[i] = Vector3.Normalize(getRotationResult(pivot, vector, radAngle, euler[i], true));
+            }
+
+            objectCenter = getRotationResult(pivot, vector, radAngle, objectCenter);
+
+            foreach (var i in child)
+            {
+                i.rotate(pivot, vector, angle);
+            }
+        }
+
+        public Vector3 getRotationResult(Vector3 pivot, Vector3 vector, float angle, Vector3 point, bool isEuler = false)
+        {
+            Vector3 temp, newPosition;
+
+            if (isEuler)
+            {
+                temp = point;
+            }
+            else
+            {
+                temp = point - pivot;
+            }
+
+            newPosition.X =
+                temp.X * (float)(Math.Cos(angle) + Math.Pow(vector.X, 2.0f) * (1.0f - Math.Cos(angle))) +
+                temp.Y * (float)(vector.X * vector.Y * (1.0f - Math.Cos(angle)) - vector.Z * Math.Sin(angle)) +
+                temp.Z * (float)(vector.X * vector.Z * (1.0f - Math.Cos(angle)) + vector.Y * Math.Sin(angle));
+
+            newPosition.Y =
+                temp.X * (float)(vector.X * vector.Y * (1.0f - Math.Cos(angle)) + vector.Z * Math.Sin(angle)) +
+                temp.Y * (float)(Math.Cos(angle) + Math.Pow(vector.Y, 2.0f) * (1.0f - Math.Cos(angle))) +
+                temp.Z * (float)(vector.Y * vector.Z * (1.0f - Math.Cos(angle)) - vector.X * Math.Sin(angle));
+
+            newPosition.Z =
+                temp.X * (float)(vector.X * vector.Z * (1.0f - Math.Cos(angle)) - vector.Y * Math.Sin(angle)) +
+                temp.Y * (float)(vector.Y * vector.Z * (1.0f - Math.Cos(angle)) + vector.X * Math.Sin(angle)) +
+                temp.Z * (float)(Math.Cos(angle) + Math.Pow(vector.Z, 2.0f) * (1.0f - Math.Cos(angle)));
+
+            if (isEuler)
+            {
+                temp = newPosition;
+            }
+            else
+            {
+                temp = newPosition + pivot;
+            }
+            return temp;
+        }
+
+        public void translate(float x, float y, float z)
+        {
+            model *= Matrix4.CreateTranslation(x, y, z);
+            objectCenter.X += x;
+            objectCenter.Y += y;
+            objectCenter.Z += z;
+
+            foreach (var i in child)
+            {
+                i.translate(x, y, z);
+            }
+        }
+
+        public void scale(float scaleX, float scaleY, float scaleZ)
+        {
+            model *= Matrix4.CreateTranslation(-objectCenter);
+            model *= Matrix4.CreateScale(scaleX, scaleY, scaleZ);
+            model *= Matrix4.CreateTranslation(objectCenter);
+
+            foreach (var i in child)
+            {
+                i.scale(scaleX, scaleY, scaleZ);
+            }
+        }
+        #endregion
     }
 }
