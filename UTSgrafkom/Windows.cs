@@ -22,6 +22,7 @@ namespace UTSgrafkom
         List<Asset3d> listObject = new List<Asset3d>();
         float x = 0;
         Karakter karakter;
+        reactor reaktor1;
         ruangan room;
         Asset3d donat;
         Camera camera;
@@ -41,10 +42,12 @@ namespace UTSgrafkom
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             /*room = new ruangan(new Vector3(0.6f, 0.5f, 0.5f));
             room.createBoxVertices(0, 0, 0);*/
-            donat = new Asset3d(new Vector3(1.0f, 1.0f, 1.0f));
+            /*donat = new Asset3d(new Vector3(1.0f, 1.0f, 1.0f));
             donat.createTorus(0f,-0.9f, 0f, 0.9f, 0.02f, 12, 12);
             karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
-            karakter.load(Size.X,Size.Y);
+            karakter.load(Size.X,Size.Y);*/
+            reaktor1 = new reactor(new Vector3(0, 0.5f, 1));
+            reaktor1.load(Size.X, Size.Y);
             /*donat.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);*/
             /*room.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);*/
             camera = new Camera(new Vector3(0, 0, 1), Size.X / (float)Size.Y);
@@ -59,14 +62,15 @@ namespace UTSgrafkom
             Matrix4 temp = Matrix4.Identity;
             degr = MathHelper.DegreesToRadians(0.5f);
             temp *= Matrix4.CreateRotationY(degr);
-            Matrix4 temp3 = Matrix4.Identity;
+            /*Matrix4 temp3 = Matrix4.Identity;
             degr2 = MathHelper.DegreesToRadians(0f);
-            temp3 *= Matrix4.CreateRotationX(degr2);
+            temp3 *= Matrix4.CreateRotationX(degr2);*/
             /*temp4 *= Matrix4.CreateTranslation(new Vector3(0f, 0.001f, 0f));*/
-            x += 0.001f;
+            /*x += 0.001f;*/
             /*temp2 = Matrix4.CreateTranslation(new Vector3(0f, 0f, 0f));*/
             /*donat.render(1, temp3 * temp4, time, camera.GetViewMatrix(), camera.GetProjectionMatrix());*/
-            karakter.render(args.Time,temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());
+            /*karakter.render(args.Time,temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());*/
+            reaktor1.render(args.Time, temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());
             SwapBuffers();
         }
 
