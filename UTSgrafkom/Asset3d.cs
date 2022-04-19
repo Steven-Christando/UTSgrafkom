@@ -367,7 +367,7 @@ namespace UTSgrafkom
             Vector3 temp_vector; float _pi = (float)Math.PI;
             for (float v = -20.0f; v <= _pi / 100; v += 0.01f)
             {
-                for (float u = -20.0f; u <= _pi; u += (_pi / 10))
+                for (float u = -20.0f; u <= _pi; u += (_pi / 100))
                 {
                     temp_vector.X = _positionX + _radiusx * (float)Math.Cos(u); 
                     temp_vector.Y = _positionY + _radiusy * (float)Math.Sin(u); 
