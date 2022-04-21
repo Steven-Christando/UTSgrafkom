@@ -17,19 +17,14 @@ namespace UTSgrafkom
     }
     internal class Windows : GameWindow
     {
-        float degr,degr2 = 0;
-        double time;
-        List<Asset3d> listObject = new List<Asset3d>();
-        float x = 0;
-        Karakter karakter;
-        ruangan room;
-        Asset3d donat;
-        Camera camera;
-        Matrix4 temp2 = Matrix4.Identity;
-        Matrix4 temp4 = Matrix4.Identity;
-        int counter = 0;
+        List<Item> listObject = new List<Item>();
 
-        Scanner scanner;
+        Camera camera;
+        bool _firstMove = true;
+        Vector2 _lastPos;
+        Vector3 _objectPos = new Vector3(0, 0, 0);
+        float _rotationSpeed = 1f;
+
         public Windows(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             
@@ -42,18 +37,15 @@ namespace UTSgrafkom
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-            /*room = new ruangan(new Vector3(0.6f, 0.5f, 0.5f));
-            room.createBoxVertices(0, 0, 0);*/
-            /*donat = new Asset3d(new Vector3(1.0f, 1.0f, 1.0f));
-            donat.createTorus(0f,-0.9f, 0f, 0.9f, 0.02f, 12, 12);*/
-            karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
+            Karakter karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
             karakter.load(Size.X,Size.Y);
-            /*donat.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);*/
-            /*room.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);*/
+            
 
             //SCANNER
-            scanner = new Scanner();
+            Scanner scanner = new Scanner();
             scanner.load(Size.X, Size.Y);
+
+            listObject.Add(scanner);
 
             camera = new Camera(new Vector3(0, 0, 1), Size.X / (float)Size.Y);
         }
@@ -64,25 +56,12 @@ namespace UTSgrafkom
             /*GL.Clear(ClearBufferMask.ColorBufferBit);*/
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
-            time += 15.0 * time;
-
-            Matrix4 temp = Matrix4.Identity;
-            degr = MathHelper.DegreesToRadians(90f);
-            temp *= Matrix4.CreateRotationY(degr);
-
-            Matrix4 temp3 = Matrix4.Identity;
-            degr2 = MathHelper.DegreesToRadians(0f);
-            temp3 *= Matrix4.CreateRotationX(degr2);
-
-            /*temp4 *= Matrix4.CreateTranslation(new Vector3(0f, 0.001f, 0f));*/
-            x += 0.001f;
-            /*temp2 = Matrix4.CreateTranslation(new Vector3(0f, 0f, 0f));*/
-
-            /*donat.render(1, temp3 * temp4, time, camera.GetViewMatrix(), camera.GetProjectionMatrix());*/
-            /*karakter.render(args.Time, temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());*/
 
             //SCANNER
-            scanner.render(args.Time, temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());
+            foreach (Item i in listObject)
+            {
+                i.render(camera.GetViewMatrix(), camera.GetProjectionMatrix());
+            }
 
             SwapBuffers();
         }
@@ -144,6 +123,49 @@ namespace UTSgrafkom
             {
                 camera.Pitch -= cameraSpeed * (float)args.Time * 30.0f;
             }
+
+            var mouse = MouseState;
+            var sesitivity = 0.2f;
+            if (_firstMove)
+            {
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+                _firstMove = false;
+            }
+            else
+            {
+                var deltaX = mouse.X - _lastPos.X;
+                var deltaY = mouse.Y - _lastPos.Y;
+
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+                camera.Yaw += deltaX * sesitivity;
+                camera.Pitch += deltaY * sesitivity;
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.N))
+            {
+                var axis = new Vector3(0, 1, 0);
+                camera.Position -= _objectPos;
+                camera.Position = Vector3.Transform(
+                    camera.Position,
+                    generateArbRotationMatrix(axis, _rotationSpeed).ExtractRotation());
+
+                camera.Position += _objectPos;
+                camera._front = -Vector3.Normalize(camera.Position - _objectPos);
+            }
+        }
+
+        public Matrix4 generateArbRotationMatrix(Vector3 axis, float angle)
+        {
+            angle = MathHelper.DegreesToRadians(angle);
+
+            var arbRotationMatrix = new Matrix4(
+                (float)Math.Cos(angle) + (float)Math.Pow(axis.X, 2) * (1 - (float)Math.Cos(angle)), axis.X * axis.Y * (1 - (float)Math.Cos(angle)) - axis.Z * (float)Math.Sin(angle), axis.X * axis.Z * (1 - (float)Math.Cos(angle)) + axis.Y * (float)Math.Sin(angle), 0,
+                axis.Y * axis.X * (1 - (float)Math.Cos(angle)) + axis.Z * (float)Math.Sin(angle), (float)Math.Cos(angle) + (float)Math.Pow(axis.Y, 2) * (1 - (float)Math.Cos(angle)), axis.Y * axis.Z * (1 - (float)Math.Cos(angle)) - axis.X * (float)Math.Sin(angle), 0,
+                axis.Z * axis.X * (1 - (float)Math.Cos(angle)) - axis.Y * (float)Math.Sin(angle), axis.Z * axis.Y * (1 - (float)Math.Cos(angle)) + axis.X * (float)Math.Sin(angle), (float)Math.Cos(angle) + (float)Math.Pow(axis.Z, 2) * (1 - (float)Math.Cos(angle)), 0,
+                0, 0, 0, 1
+                );
+
+            return arbRotationMatrix;
         }
     }
 }
