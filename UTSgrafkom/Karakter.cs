@@ -14,8 +14,8 @@ namespace UTSgrafkom
         float degr = 0;
         double time;
         List<Asset3d> listObject = new List<Asset3d>();
-        Asset3d kepala, bokong, google, tas, badan, kakiKiri, kakiKanan, topi;
-
+        Asset3d kepala,pantat,badan,google,kakiKanan,kakiKiri;
+        Vector3 color;
         float x, y, z;
         static class Constants
         {
@@ -26,45 +26,62 @@ namespace UTSgrafkom
             this.x = x;
             this.y = y;
             this.z = z;
+            this.color = color;
+        }
 
-            kepala = new Asset3d(new Vector3(0, 0.5f, 1));
-            kepala.createSphereWireframe(x + (-0.5f), y + (-0.3f), z + (0), 0.2f, 0.1f);
-
-            bokong = new Asset3d(new Vector3(0, 0.5f, 1));
-            bokong.createSphereWireframe(x + (-0.5f), y + (-0.52f), z + (0), 0.2f, 0.1f);
-
-            google = new Asset3d(new Vector3(0.8f, 0.8f, 0.8f));
-            google.createEllipsoidWireframe(x + (-0.412f), y + (-0.35f), z + (0), 0.123f, 0.075f, 0.1f);
-
-            tas = new Asset3d(new Vector3(0f, 0.5f, 1));
-            tas.createBoxVertices(x+(-0.62f),y+(-0.45f),z+(-0.1f));
-
-            badan = new Asset3d(new Vector3(0, 0.5f, 1));
-            badan.tabung(x+(-0.5f), y+(0), z + (0.55f), 0.2f, 0.1f, 0.013f);
-
-            kakiKiri = new Asset3d(new Vector3(0, 0.5f, 1f));
-            kakiKiri.tabung(x + (-0.62f), y + (0), z + (0.8f), 0.075f, 0.05f, 0.017f);
-
-            kakiKanan = new Asset3d(new Vector3(0, 0.5f, 1f));
-            kakiKanan.tabung(x + (-0.3753f), y + (0), y + (0.8f), 0.075f, 0.05f, 0.017f);
-
-            topi = new Asset3d(new Vector3(0.5f, 0.5f, 1));
-            topi.createElipticParaboloid(-0.5f, 0f, 0.06f, 0.035f, 0.05f, 0.003f);
-
-            /*kakiKiri = new Asset3d(new Vector3(0f, 0.5f, 1f));
-            kakiKiri.createElipticParaboloid(-0.53f, 1f, -1.05f, 0.03f, 0.05f, 0.025f);
-
-            kakiKanan = new Asset3d(new Vector3(0f, 0.5f, 1f));
-            kakiKanan.createElipticParaboloid(-0.8f, 1f, -1.05f, 0.03f, 0.05f, 0.025f);*/
-
-            listObject.Add(kakiKanan);
-            listObject.Add(kakiKiri);
-            listObject.Add(tas);
+        public void karakterVent()
+        {
+            badan = new Asset3d(new Vector3(this.color));
+            badan.tabung(0, 0, 0, 0.05f, 0.05f, 0.005f);
+            badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
+            kepala = new Asset3d(new Vector3(this.color));
+            kepala.createSphere(0, 0.1f, 0, 0.05f, 25, 25);
+            google = new Asset3d(new Vector3(0.5f, 0.5f, 0.5f));
+            google.createEllipsoid(-0.0375f, 0.1f, 0, 0.025f, 0.01f, 0.025f, 25, 25);
+            badan.child.Add(kepala);
+            kepala.child.Add(google);
+            kepala.rotate(kepala.objectCenter, Vector3.UnitY, 75f);
+            badan.translate(-1.25f, -0.4255f, -0.9f);
             listObject.Add(kepala);
-            listObject.Add(bokong);
             listObject.Add(badan);
             listObject.Add(google);
-            listObject.Add(topi);
+        }
+
+        public void karakterReaktor()
+        {
+            kepala = new Asset3d(this.color);
+            kepala.createSphere(0, -0.1f, 0, 0.1f, 25, 25);
+
+            pantat = new Asset3d(this.color);
+            pantat.createSphere(0, -0.3f, 0, 0.1f, 25, 25);
+            
+            badan = new Asset3d(this.color);
+            badan.tabung(0, -0.3f, 0, 0.1f, 0.1f, 0.01f);
+            badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
+
+            google = new Asset3d(new Vector3(0.5f,0.5f,0.5f));
+            google.createEllipsoid(-0.1f, -0.1f, 0, 0.025f, 0.025f, 0.04f, 25, 25);
+
+            badan.child.Add(kepala);
+            kepala.child.Add(google);
+            kepala.rotate(kepala.objectCenter, Vector3.UnitY, 45f);
+            badan.child.Add(pantat);
+            badan.translate(-1.7f, 0, -0.5f);
+
+            listObject.Add(badan);
+            listObject.Add(kepala);
+            listObject.Add(pantat);
+            listObject.Add(google);
+        }
+
+        public void karakterScanner()
+        {
+            
+        }
+
+        public void mayatKarakter()
+        {
+
         }
 
         public void load(float SizeX,float SizeY)
@@ -72,6 +89,7 @@ namespace UTSgrafkom
             foreach (Asset3d i in listObject)
             {
                 i.load(Constants.path + "shader.vert", Constants.path + "shader.frag", SizeX, SizeY);
+                
             }
         }
 
@@ -81,16 +99,6 @@ namespace UTSgrafkom
             Matrix4 temp = Matrix4.Identity;
             for (int i = 0; i < listObject.Count; i++)
             {
-                if (i == 0 || i == 1 || i == 5 || i == 7)
-                {
-                    degr = MathHelper.DegreesToRadians(90f);
-                    temp = Matrix4.CreateRotationX(degr)*temps;
-                }
-                else
-                {
-                    degr = MathHelper.DegreesToRadians(00f);
-                    temp = Matrix4.CreateRotationX(degr)*temps;
-                }
                 listObject[i].render(1, temp, time, cameraView, cameraProjection);
             }
         }
