@@ -13,10 +13,20 @@ namespace UTSgrafkom
 {
     static class Constants
     {
-        public const string path = "D:../../../shader/";
+        public const string path = "../../../shader/";
     }
     internal class Windows : GameWindow
     {
+<<<<<<< scan
+        List<Item> listObject = new List<Item>();
+
+        Camera camera;
+        bool _firstMove = true;
+        Vector2 _lastPos;
+        Vector3 _objectPos = new Vector3(0, 0, 0);
+        float _rotationSpeed = 1f;
+
+=======
         float degr = 0;
         double time;
         Karakter karakterVent,karakterReactor;
@@ -24,6 +34,7 @@ namespace UTSgrafkom
         ruangan ruang;
         Camera camera;
         vent coba1,coba2;
+>>>>>>> master
         public Windows(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             
@@ -35,6 +46,18 @@ namespace UTSgrafkom
             base.OnLoad();
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+<<<<<<< scan
+
+            Karakter karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
+            karakter.load(Size.X,Size.Y);
+            
+
+            //SCANNER
+            Scanner scanner = new Scanner();
+            scanner.load(Size.X, Size.Y);
+
+            listObject.Add(scanner);
+=======
             
             ruang = new ruangan(new Vector3(0, 0.5f, 1));
             ruang.load(Size.X, Size.Y);
@@ -57,6 +80,7 @@ namespace UTSgrafkom
             karakterReactor = new Karakter(0, 0, 0, new Vector3(0.5f, 0.5f,0));
             karakterReactor.karakterReaktor();
             karakterReactor.load(Size.X, Size.Y);
+>>>>>>> master
 
             camera = new Camera(new Vector3(0, 0, 1), Size.X / (float)Size.Y);
         }
@@ -64,6 +88,18 @@ namespace UTSgrafkom
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             base.OnRenderFrame(args);
+<<<<<<< scan
+            /*GL.Clear(ClearBufferMask.ColorBufferBit);*/
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+
+
+            //SCANNER
+            foreach (Item i in listObject)
+            {
+                i.render(camera.GetViewMatrix(), camera.GetProjectionMatrix());
+            }
+
+=======
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             time += 15.0 * time;
@@ -76,13 +112,13 @@ namespace UTSgrafkom
             coba2.render(1, temp, args.Time, camera.GetViewMatrix(), camera.GetProjectionMatrix());
             karakterVent.render(args.Time, temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());
             karakterReactor.render(args.Time, temp, camera.GetViewMatrix(), camera.GetProjectionMatrix());
+>>>>>>> master
             SwapBuffers();
         }
 
         protected override void OnResize(ResizeEventArgs e)
         {
             base.OnResize(e);
-            /*Console.WriteLine("halo");*/
             GL.Viewport(0, 0, Size.X, Size.Y);
         }
 
@@ -102,7 +138,6 @@ namespace UTSgrafkom
             if (input.IsKeyDown(Keys.A))
             {
                 camera.Position -= camera.Right * cameraSpeed * (float)args.Time;
-                /*Console.WriteLine("tombol a di release");*/
             }
             if (input.IsKeyDown(Keys.S))
             {
@@ -138,6 +173,49 @@ namespace UTSgrafkom
             {
                 camera.Pitch -= cameraSpeed * (float)args.Time * 30.0f;
             }
+
+            var mouse = MouseState;
+            var sesitivity = 0.2f;
+            if (_firstMove)
+            {
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+                _firstMove = false;
+            }
+            else
+            {
+                var deltaX = mouse.X - _lastPos.X;
+                var deltaY = mouse.Y - _lastPos.Y;
+
+                _lastPos = new Vector2(mouse.X, mouse.Y);
+                camera.Yaw += deltaX * sesitivity;
+                camera.Pitch += deltaY * sesitivity;
+            }
+
+            if (KeyboardState.IsKeyDown(Keys.N))
+            {
+                var axis = new Vector3(0, 1, 0);
+                camera.Position -= _objectPos;
+                camera.Position = Vector3.Transform(
+                    camera.Position,
+                    generateArbRotationMatrix(axis, _rotationSpeed).ExtractRotation());
+
+                camera.Position += _objectPos;
+                camera._front = -Vector3.Normalize(camera.Position - _objectPos);
+            }
+        }
+
+        public Matrix4 generateArbRotationMatrix(Vector3 axis, float angle)
+        {
+            angle = MathHelper.DegreesToRadians(angle);
+
+            var arbRotationMatrix = new Matrix4(
+                (float)Math.Cos(angle) + (float)Math.Pow(axis.X, 2) * (1 - (float)Math.Cos(angle)), axis.X * axis.Y * (1 - (float)Math.Cos(angle)) - axis.Z * (float)Math.Sin(angle), axis.X * axis.Z * (1 - (float)Math.Cos(angle)) + axis.Y * (float)Math.Sin(angle), 0,
+                axis.Y * axis.X * (1 - (float)Math.Cos(angle)) + axis.Z * (float)Math.Sin(angle), (float)Math.Cos(angle) + (float)Math.Pow(axis.Y, 2) * (1 - (float)Math.Cos(angle)), axis.Y * axis.Z * (1 - (float)Math.Cos(angle)) - axis.X * (float)Math.Sin(angle), 0,
+                axis.Z * axis.X * (1 - (float)Math.Cos(angle)) - axis.Y * (float)Math.Sin(angle), axis.Z * axis.Y * (1 - (float)Math.Cos(angle)) + axis.X * (float)Math.Sin(angle), (float)Math.Cos(angle) + (float)Math.Pow(axis.Z, 2) * (1 - (float)Math.Cos(angle)), 0,
+                0, 0, 0, 1
+                );
+
+            return arbRotationMatrix;
         }
     }
 }
