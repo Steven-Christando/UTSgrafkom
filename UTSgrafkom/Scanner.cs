@@ -12,9 +12,13 @@ namespace UTSgrafkom
 {
     internal class Scanner: Item
     {
-        double time;
+        //untuk animasi
+        int counter;
+        int increment = 1;
+        float speed = 0.005f;
 
         List<Asset3d2> listObject = new List<Asset3d2>();
+        Asset3d2 laser;
 
         public Scanner()
         {
@@ -37,41 +41,45 @@ namespace UTSgrafkom
             tutupAbu.createEllipsoid(0, 0, 0, 0.8f, 0.8f, 0f, 30, 30);
             alas.child.Add(tutupAbu);            
             
+            //rotate supaya keliatan tidur
             alas.rotate(new Vector3(0, 0, 0), Vector3.UnitX, -90f);
-            
-            //tabung sebelah kiri
-            Asset3d2 tabungL = new Asset3d2(darkGrey);
-            tabungL.tabung(0f, 0f, 0f, 0.2f, 0.2f, 0.01f);
-            tabungL.rotate(tabungL.objectCenter, Vector3.UnitY, 90f);
-            tabungL.rotate(tabungL.objectCenter, Vector3.UnitZ, 45f);
-            tabungL.translate(-0.6f, 0f, 0f);
-            alas.child.Add(tabungL);
 
-            //tabung sebelah kanan
-            Asset3d2 tabungR = new Asset3d2(darkGrey);
-            tabungR.tabung(0f, 0f, 0f, 0.2f, 0.2f, 0.01f);
-            tabungR.rotate(tabungR.objectCenter, Vector3.UnitY, -90f);
-            tabungR.rotate(tabungR.objectCenter, Vector3.UnitZ, -45f);
-            tabungR.translate(0.6f, 0f, 0f);
-            alas.child.Add(tabungR);
+            //cone depan
+            Asset3d2 coneF = new Asset3d2(darkGrey);
+            coneF.createElipticParaboloid(0, 0, 0, 0.03f, 0.03f, 0.01f);
+            coneF.rotate(coneF.objectCenter, Vector3.UnitX, 45f);
+            coneF.translate(0f, 0.1f, 0.6f);
+            alas.child.Add(coneF);
 
-            //tabung sebelah depan
-            Asset3d2 tabungF = new Asset3d2(darkGrey);
-            tabungF.tabung(0f, 0f, 0f, 0.2f, 0.2f, 0.01f);
-            tabungF.rotate(tabungF.objectCenter, Vector3.UnitY, 0f);
-            tabungF.rotate(tabungF.objectCenter, Vector3.UnitX, -45f);
-            tabungF.translate(0f, 0f, -0.6f);
-            alas.child.Add(tabungF);
+            //cone belakang
+            Asset3d2 coneB = new Asset3d2(darkGrey);
+            coneB.createElipticParaboloid(0, 0, 0, 0.03f, 0.03f, 0.01f);
+            coneB.rotate(coneB.objectCenter, Vector3.UnitX, 45f);
+            coneB.rotate(coneB.objectCenter, Vector3.UnitY, 180f);
+            coneB.translate(0f, 0.1f, -0.6f);
+            alas.child.Add(coneB);
 
-            //tabung sebelah belakang
-            Asset3d2 tabungB = new Asset3d2(darkGrey);
-            tabungB.tabung(0f, 0f, 0f, 0.2f, 0.2f, 0.01f);
-            tabungB.rotate(tabungB.objectCenter, Vector3.UnitY, 180f);
-            tabungB.rotate(tabungB.objectCenter, Vector3.UnitX, 45f);
-            tabungB.translate(0f, 0f, 0.6f);
-            alas.child.Add(tabungB);
+            //cone kiri
+            Asset3d2 coneL = new Asset3d2(darkGrey);
+            coneL.createElipticParaboloid(0, 0, 0, 0.03f, 0.03f, 0.01f);
+            coneL.rotate(coneL.objectCenter, Vector3.UnitX, 45f);
+            coneL.rotate(coneL.objectCenter, Vector3.UnitY, -90f);
+            coneL.translate(-0.6f, 0.1f, 0f);
+            alas.child.Add(coneL);
 
-            alas.rotate(alas.objectCenter, Vector3.UnitY, 45f);
+            //cone kanan
+            Asset3d2 coneR = new Asset3d2(darkGrey);
+            coneR.createElipticParaboloid(0, 0, 0, 0.03f, 0.03f, 0.01f);
+            coneR.rotate(coneR.objectCenter, Vector3.UnitX, 45f);
+            coneR.rotate(coneR.objectCenter, Vector3.UnitY, 90f);
+            coneR.translate(0.6f, 0.1f, 0f);
+            alas.child.Add(coneR);
+
+            //laser
+            laser = new Asset3d2(green);
+            laser.createEllipsoid(0, 0, 0.01f, 0.5f, 0.5f, 0f, 30, 30);
+            laser.rotate(laser.objectCenter, Vector3.UnitX, 90f);
+            alas.child.Add(laser);
 
             listObject.Add(alas);
         }
@@ -89,6 +97,18 @@ namespace UTSgrafkom
             for (int i = 0; i < listObject.Count; i++)
             {
                 listObject[i].render(cameraView, cameraProjection);
+            }
+
+            counter += increment;
+
+            laser.translate(0, speed, 0);
+
+            Console.WriteLine(counter);
+
+            if (counter <= 0 || counter >= 100)
+            {
+                speed *= -1;
+                increment *= -1;
             }
         }
     }

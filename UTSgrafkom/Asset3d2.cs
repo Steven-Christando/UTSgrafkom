@@ -315,6 +315,22 @@ namespace ConsoleApp1
             }
         }
 
+        public void createElipticParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
+
+        {
+            var tempVertex = new Vector3();
+            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
+            {
+                for (float v = 0.0f; v < 5.0f; v += 0.01f)
+                {
+                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
+                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
+                    tempVertex.Z = radiusZ * v * v + z;
+                    vertices.Add(tempVertex);
+                }
+            }
+        }
+
         #endregion
 
         #region transforms
