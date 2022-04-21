@@ -17,6 +17,11 @@ namespace UTSgrafkom
         Asset3d kepala,pantat,badan,google,kakiKanan,kakiKiri;
         Vector3 color;
         float x, y, z;
+
+        int increment = 0;
+        int change = -1;
+        int type;
+        float degree = 0.1f;
         static class Constants
         {
             public const string path = "D:../../../shader/";
@@ -41,10 +46,11 @@ namespace UTSgrafkom
             badan.child.Add(kepala);
             kepala.child.Add(google);
             kepala.rotate(kepala.objectCenter, Vector3.UnitY, 75f);
-            badan.translate(-1.25f, -0.4255f, -0.9f);
+            /*badan.translate(-1.25f, -0.4255f, -0.9f);*/
             listObject.Add(kepala);
             listObject.Add(badan);
             listObject.Add(google);
+            type = 0;
         }
 
         public void karakterReaktor()
@@ -101,7 +107,16 @@ namespace UTSgrafkom
             {
                 listObject[i].render(1, temp, time, cameraView, cameraProjection);
             }
+            if(type == 0)
+            {
+                if (increment == 0 || increment == 100)
+                {
+                    change *= -1;
+                    degree *= -1;
+                }
+                increment += change;
+                badan.rotate(badan.objectCenter, Vector3.UnitY, degree);
+            }
         }
-
     }
 }
