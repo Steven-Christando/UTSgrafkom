@@ -19,12 +19,31 @@ namespace UTSgrafkom
         {
             warna = new Vector3(color);
 
-            Asset3d tabungBesar = new Asset3d(new Vector3(0, 0.5f, 1));
-            tabungBesar.tabung(0f,0,0f, 0.5f, 0.2f, 0.02f);
-            Asset3d tabungMedium = new Asset3d(new Vector3(1, 0.5f, 1));
-            tabungMedium.tabung(0f, 0f, -0.3f, 0.3f, 0.2f, 0.02f);
+            Asset3d tabungBesar = new Asset3d(new Vector3(0.45f, 0.5f, 0.55f));
+            tabungBesar.tabung(-2.49f,-0.5f,0.5f, 0.2f, 0.2f, 0.02f);
+            tabungBesar.rotate(tabungBesar.objectCenter, Vector3.UnitX, 90f);
+            
+            Asset3d tutup = new Asset3d(new Vector3(0.45f, 0.5f, 0.55f));
+            tutup.createEllipsoid(-2.49f, -0.1f, 0.5f, 0.2f, 0.2f, 0.02f, 25, 25);
+            tutup.rotate(tutup.objectCenter, Vector3.UnitX, 90f);
+            tabungBesar.child.Add(tutup);
+
+            Asset3d tabungMedium = new Asset3d(new Vector3(1f, 0.5f, 0.55f));
+            tabungMedium.tabung(-2.49f, -0.5f, 0.35f, 0.1f, 0.1f, 0.02f);
+            tabungMedium.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
+
+            Asset3d tutup2 = new Asset3d(new Vector3(1f, 0.5f, 0.55f));
+            tutup2.createEllipsoid(-2.49f, -0.1f, 0.35f, 0.1f, 0.1f, 0.02f, 25, 25);
+            tutup2.rotate(tutup2.objectCenter, Vector3.UnitX, 90f);
+            tabungMedium.child.Add(tutup2);
+
+            tabungBesar.translate(0, 0.01f, -1.0f);
+            tabungMedium.translate(0, 0.3f, -0.85f);
+
             listObject.Add(tabungMedium);
             listObject.Add(tabungBesar);
+            listObject.Add(tutup);
+            listObject.Add(tutup2);
         }
         static class Constants
         {
@@ -43,11 +62,7 @@ namespace UTSgrafkom
             Matrix4 temp = Matrix4.Identity;
             for (int i = 0; i < listObject.Count; i++)
             {
-                
-                    degr = MathHelper.DegreesToRadians(90f);
-                    temp = Matrix4.CreateRotationX(degr) * temps;
-                    listObject[i].render(1, temp, time, cameraView, cameraProjection);
-                
+                listObject[i].render(1, temp, time, cameraView, cameraProjection);
             }
         }
     }

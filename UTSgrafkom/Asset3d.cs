@@ -55,8 +55,7 @@ namespace UTSgrafkom
             {
                 _elementBufferObject = GL.GenBuffer();
                 GL.BindBuffer(BufferTarget.ElementArrayBuffer, _elementBufferObject);
-                GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Count * sizeof(uint),
-                    _indices.ToArray(), BufferUsageHint.StaticDraw);
+                GL.BufferData(BufferTarget.ElementArrayBuffer, _indices.Count * sizeof(uint),_indices.ToArray(), BufferUsageHint.StaticDraw);
             }
 
 
@@ -79,7 +78,7 @@ namespace UTSgrafkom
             /*Matrix4 model = Matrix4.Identity * Matrix4.CreateRotationY((float)MathHelper.DegreesToRadians(time));*/
 
             /*kalo pake yang degree pake ini*/
-            model = temp;
+            /*model = temp;*/
             _shader.SetMatrix4("model", model);
             _shader.SetMatrix4("view", cameraView);
             _shader.SetMatrix4("projection", cameraProjection);
@@ -288,7 +287,7 @@ namespace UTSgrafkom
                 }
             }
         }
-        public void createSphere(float x, float y, float z, float radXY, float radZ, float sectorCount, float stackCount)
+        public void createSphere(float x, float y, float z, float radXYZ, float sectorCount, float stackCount)
         {
             objectCenter = new Vector3(x, y, z);
 
@@ -301,9 +300,9 @@ namespace UTSgrafkom
             for (int i = 0; i <= stackCount; ++i)
             {
                 stackAngle = pi / 2 - i * stackStep;
-                tempX = radXY * (float)Math.Cos(stackAngle);
-                tempY = radXY * (float)Math.Sin(stackAngle);
-                tempZ = radZ * (float)Math.Cos(stackAngle);
+                tempX = radXYZ * (float)Math.Cos(stackAngle);
+                tempY = radXYZ * (float)Math.Sin(stackAngle);
+                tempZ = radXYZ * (float)Math.Cos(stackAngle);
 
                 for (int j = 0; j <= sectorCount; ++j)
                 {
@@ -402,6 +401,21 @@ namespace UTSgrafkom
                     _indices.Add(k1 + 1);
                     _indices.Add(k2);
                     _indices.Add(k2 + 1);
+                }
+            }
+        }
+        public void createElipticParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
+
+        {
+            var tempVertex = new Vector3();
+            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
+            {
+                for (float v = 0.0f; v < 5.0f; v += 0.01f)
+                {
+                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
+                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
+                    tempVertex.Z = radiusZ * v * v + z;
+                    _vertices.Add(tempVertex);
                 }
             }
         }

@@ -9,116 +9,57 @@ using OpenTK.Mathematics;
 
 namespace UTSgrafkom
 {
-    internal class ruangan : Asset3d
+    internal class ruangan : tembok
     {
+        List<tembok> listTembok = new List<tembok>();
+        tembok atap, alas, tembokKiri, tembokKanan, belakang, sekat1, sekat2;
         public ruangan(Vector3 color) : base(color)
         {
+            alas = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
+            alas.createAlas(0f, 0, -1f);
+
+            atap = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
+            atap.createAtap(0f, 0, -1f);
+
+            tembokKiri = new tembok(new Vector3(0.231f, 0.2315f, 0.231f));
+            tembokKiri.createSampingKiri(0f, 0, -1f);
+
+            tembokKanan = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
+            tembokKanan.createSampingKanan(0f, 0, -1f);
+
+            belakang = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
+            belakang.createBelakang(0f, 0, -1f);
+
+            sekat1 = new tembok(new Vector3(0f, 0f, 0f));
+            sekat1.createSekat1(0f, 0, -1f);
+
+            sekat2 = new tembok(new Vector3(0f, 0f, 0f));
+            sekat2.createSekat2(0f, 0, -1f);
+
+            listTembok.Add(alas);
+            listTembok.Add(atap);
+            listTembok.Add(tembokKiri);
+            listTembok.Add(tembokKanan);
+            listTembok.Add(belakang);
+            listTembok.Add(sekat1);
+            listTembok.Add(sekat2);
+        }
+
+        public void load(float SizeX, float SizeY)
+        {
+            foreach (Asset3d i in listTembok)
+            {
+                i.load(Constants.path + "shader.vert", Constants.path + "shader.frag", SizeX, SizeY);
+            }
         }
 
         public void render(int pilihan, Matrix4 temp, double time, Matrix4 cameraView, Matrix4 cameraProjection) 
         {
-            base.render(pilihan, temp, time, cameraView, cameraProjection);
+            foreach (Asset3d i in listTembok)
+            {
+                i.render(pilihan, temp, time, cameraView, cameraProjection);
+            }
 
-            _shader.SetVector3("ourColor", new Vector3(0.0f, 0f, 0f));
-            GL.DrawElements(PrimitiveType.LineLoop, _indices.Count, DrawElementsType.UnsignedInt, 0);
-    
-        }
-
-
-        public void createBoxVertices(float x, float y, float z)
-        {
-            //biar lebih fleksibel jangan inisialiasi posisi dan 
-            //panjang kotak didalam tapi ditaruh ke parameter
-            float _positionX = x;
-            float _positionY = y;
-            float _positionZ = z;
-
-            float _boxLength = 0.7f;
-
-            //Buat temporary vector
-            Vector3 temp_vector;
-            //1. Inisialisasi vertex
-            // Titik 1
-            temp_vector.X = _positionX - _boxLength; // x 
-            temp_vector.Y = _positionY + _boxLength; // y
-            temp_vector.Z = _positionZ - _boxLength; // z
-
-            _vertices.Add(temp_vector);
-
-            // Titik 2
-            temp_vector.X = _positionX + _boxLength; // x
-            temp_vector.Y = _positionY + _boxLength; // y
-            temp_vector.Z = _positionZ - _boxLength; // z
-
-            _vertices.Add(temp_vector);
-            // Titik 3
-            temp_vector.X = _positionX - _boxLength; // x
-            temp_vector.Y = _positionY - _boxLength; // y
-            temp_vector.Z = _positionZ - _boxLength; // z
-            _vertices.Add(temp_vector);
-
-            // Titik 4
-            temp_vector.X = _positionX + _boxLength; // x
-            temp_vector.Y = _positionY - _boxLength; // y
-            temp_vector.Z = _positionZ - _boxLength; // z
-
-            _vertices.Add(temp_vector);
-
-            // Titik 5
-            temp_vector.X = _positionX - _boxLength; // x
-            temp_vector.Y = _positionY + _boxLength; // y
-            temp_vector.Z = _positionZ + _boxLength; // z
-
-            _vertices.Add(temp_vector);
-
-            // Titik 6
-            temp_vector.X = _positionX + _boxLength; // x
-            temp_vector.Y = _positionY + _boxLength; // y
-            temp_vector.Z = _positionZ + _boxLength; // z
-
-            _vertices.Add(temp_vector);
-
-            // Titik 7
-            temp_vector.X = _positionX - _boxLength; // x
-            temp_vector.Y = _positionY - _boxLength; // y
-            temp_vector.Z = _positionZ + _boxLength; // z
-
-            _vertices.Add(temp_vector);
-
-            // Titik 8
-            temp_vector.X = _positionX + _boxLength; // x
-            temp_vector.Y = _positionY - _boxLength; //y
-            temp_vector.Z = _positionZ + _boxLength; // z
-
-            _vertices.Add(temp_vector);
-            //2. Inisialisasi index vertex
-            _indices = new List<uint> {
-                // Segitiga Depan 1
-                0, 1, 2,
-                // Segitiga Depan 2
-                1, 2, 3,
-                // Segitiga Atas 1
-                0, 4, 5,
-                // Segitiga Atas 2
-                0, 1, 5,
-                // Segitiga Kanan 1
-                1, 3, 5,
-                // Segitiga Kanan 2
-                3, 5, 7,
-                // Segitiga Kiri 1
-                0, 2, 4,
-                // Segitiga Kiri 2
-                2, 4, 6,
-                // Segitiga Belakang 1
-                4, 5, 6,
-                // Segitiga Belakang 2
-                5, 6, 7,
-                // Segitiga Bawah 1
-                2, 3, 6,
-                // Segitiga Bawah 2
-                3, 6, 7
-            };
-        }
-        
+        }        
     }
 }
