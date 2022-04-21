@@ -287,7 +287,7 @@ namespace UTSgrafkom
                 }
             }
         }
-        public void createSphere(float x, float y, float z, float radXY, float radZ, float sectorCount, float stackCount)
+        public void createSphere(float x, float y, float z, float radXYZ, float sectorCount, float stackCount)
         {
             objectCenter = new Vector3(x, y, z);
 
@@ -300,9 +300,9 @@ namespace UTSgrafkom
             for (int i = 0; i <= stackCount; ++i)
             {
                 stackAngle = pi / 2 - i * stackStep;
-                tempX = radXY * (float)Math.Cos(stackAngle);
-                tempY = radXY * (float)Math.Sin(stackAngle);
-                tempZ = radZ * (float)Math.Cos(stackAngle);
+                tempX = radXYZ * (float)Math.Cos(stackAngle);
+                tempY = radXYZ * (float)Math.Sin(stackAngle);
+                tempZ = radXYZ * (float)Math.Cos(stackAngle);
 
                 for (int j = 0; j <= sectorCount; ++j)
                 {

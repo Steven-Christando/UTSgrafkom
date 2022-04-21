@@ -37,8 +37,8 @@ namespace UTSgrafkom
             tutup2.rotate(tutup2.objectCenter, Vector3.UnitX, 90f);
             tabungMedium.child.Add(tutup2);
 
-            tabungBesar.translate(0, 0, -1.0f);
-            tabungMedium.translate(0, 0.3f, -0.8f);
+            tabungBesar.translate(0, 0.01f, -1.0f);
+            tabungMedium.translate(0, 0.3f, -0.85f);
 
             listObject.Add(tabungMedium);
             listObject.Add(tabungBesar);

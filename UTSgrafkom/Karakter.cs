@@ -14,8 +14,8 @@ namespace UTSgrafkom
         float degr = 0;
         double time;
         List<Asset3d> listObject = new List<Asset3d>();
-        Asset3d kepala, bokong, google, tas, badan, kakiKiri, kakiKanan, topi;
-
+        Asset3d kepala,pantat,badan,google,kakiKanan,kakiKiri;
+        Vector3 color;
         float x, y, z;
         static class Constants
         {
@@ -26,12 +26,62 @@ namespace UTSgrafkom
             this.x = x;
             this.y = y;
             this.z = z;
+            this.color = color;
+        }
 
-          
-            badan = new Asset3d(new Vector3(0, 0.5f, 1));
-            badan.tabung(0,0,0, 0.2f, 0.1f, 0.013f);
+        public void karakterVent()
+        {
+            badan = new Asset3d(new Vector3(this.color));
+            badan.tabung(0, 0, 0, 0.05f, 0.05f, 0.005f);
             badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
+            kepala = new Asset3d(new Vector3(this.color));
+            kepala.createSphere(0, 0.1f, 0, 0.05f, 25, 25);
+            google = new Asset3d(new Vector3(0.5f, 0.5f, 0.5f));
+            google.createEllipsoid(-0.0375f, 0.1f, 0, 0.025f, 0.01f, 0.025f, 25, 25);
+            badan.child.Add(kepala);
+            kepala.child.Add(google);
+            kepala.rotate(kepala.objectCenter, Vector3.UnitY, 75f);
+            badan.translate(-1.25f, -0.4255f, -0.9f);
+            listObject.Add(kepala);
             listObject.Add(badan);
+            listObject.Add(google);
+        }
+
+        public void karakterReaktor()
+        {
+            kepala = new Asset3d(this.color);
+            kepala.createSphere(0, -0.1f, 0, 0.1f, 25, 25);
+
+            pantat = new Asset3d(this.color);
+            pantat.createSphere(0, -0.3f, 0, 0.1f, 25, 25);
+            
+            badan = new Asset3d(this.color);
+            badan.tabung(0, -0.3f, 0, 0.1f, 0.1f, 0.01f);
+            badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
+
+            google = new Asset3d(new Vector3(0.5f,0.5f,0.5f));
+            google.createEllipsoid(-0.1f, -0.1f, 0, 0.025f, 0.025f, 0.04f, 25, 25);
+
+            badan.child.Add(kepala);
+            kepala.child.Add(google);
+            kepala.rotate(kepala.objectCenter, Vector3.UnitY, 45f);
+            badan.child.Add(pantat);
+            badan.translate(-1.7f, 0, -0.5f);
+
+            listObject.Add(badan);
+            listObject.Add(kepala);
+            listObject.Add(pantat);
+            listObject.Add(google);
+        }
+
+        public void karakterScanner()
+        {
+            
+        }
+
+        public void mayatKarakter()
+        {
+
         }
 
         public void load(float SizeX,float SizeY)
