@@ -17,6 +17,7 @@ namespace UTSgrafkom
     }
     internal class Windows : GameWindow
     {
+        //dari scan
         List<Item> listObject = new List<Item>();
 
         Camera camera;
@@ -24,6 +25,15 @@ namespace UTSgrafkom
         Vector2 _lastPos;
         Vector3 _objectPos = new Vector3(0, 0, 0);
         float _rotationSpeed = 1f;
+
+        //dari reactor
+        float degr = 0;
+        double time;
+        Karakter karakterVent, karakterReactor;
+        reactor reaktor1;
+        ruangan ruang;
+        vent coba1, coba2;
+
         public Windows(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
         {
             
@@ -36,6 +46,7 @@ namespace UTSgrafkom
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
+
             Karakter karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
             karakter.load(Size.X,Size.Y);
             
@@ -45,6 +56,35 @@ namespace UTSgrafkom
             scanner.load(Size.X, Size.Y);
 
             listObject.Add(scanner);
+
+            //dari reactor
+            ruang = new ruangan(new Vector3(0, 0.5f, 1));
+            ruang.load(Size.X, Size.Y);
+            listObject.Add(ruang);
+
+            reaktor1 = new reactor(new Vector3(0, 0.5f, 1));
+            reaktor1.load(Size.X, Size.Y);
+            listObject.Add(reaktor1);
+
+            coba1 = new vent(new Vector3(0, 0, 0));
+            coba1.alasVent();
+            coba1.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);
+            listObject.Add(coba1);
+
+            coba2 = new vent(new Vector3(0, 0, 0));
+            coba2.tutupVent();
+            coba2.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);
+            listObject.Add(coba2);
+
+            karakterVent = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
+            karakterVent.karakterVent();
+            karakterVent.load(Size.X, Size.Y);
+            listObject.Add(karakterVent);
+
+            karakterReactor = new Karakter(0, 0, 0, new Vector3(0.5f, 0.5f, 0));
+            karakterReactor.karakterReaktor();
+            karakterReactor.load(Size.X, Size.Y);
+            listObject.Add(karakterReactor);
 
             camera = new Camera(new Vector3(0, 0, 1), Size.X / (float)Size.Y);
         }
@@ -122,7 +162,7 @@ namespace UTSgrafkom
                 camera.Pitch -= cameraSpeed * (float)args.Time * 30.0f;
             }
 
-            var mouse = MouseState;
+            /*var mouse = MouseState;
             var sesitivity = 0.2f;
             if (_firstMove)
             {
@@ -149,7 +189,7 @@ namespace UTSgrafkom
 
                 camera.Position += _objectPos;
                 camera._front = -Vector3.Normalize(camera.Position - _objectPos);
-            }
+            }*/
         }
 
         public Matrix4 generateArbRotationMatrix(Vector3 axis, float angle)

@@ -9,7 +9,7 @@ using OpenTK.Mathematics;
 
 namespace UTSgrafkom
 {
-    internal class ruangan : tembok
+    internal class ruangan : tembok, Item
     {
         List<tembok> listTembok = new List<tembok>();
         tembok atap, alas, tembokKiri, tembokKanan, belakang, sekat1, sekat2;
@@ -45,7 +45,7 @@ namespace UTSgrafkom
             listTembok.Add(sekat2);
         }
 
-        public void load(float SizeX, float SizeY)
+        public void load(int SizeX, int SizeY)
         {
             foreach (Asset3d i in listTembok)
             {
@@ -53,11 +53,11 @@ namespace UTSgrafkom
             }
         }
 
-        public void render(int pilihan, Matrix4 temp, double time, Matrix4 cameraView, Matrix4 cameraProjection) 
+        public void render(Matrix4 cameraView, Matrix4 cameraProjection) 
         {
             foreach (Asset3d i in listTembok)
             {
-                i.render(pilihan, temp, time, cameraView, cameraProjection);
+                i.render(cameraView, cameraProjection);
             }
 
         }        

@@ -16,7 +16,7 @@ namespace UTSgrafkom
         }
         public void render(int pilihan, Matrix4 temp, double time, Matrix4 cameraView, Matrix4 cameraProjection)
         {
-            base.render(pilihan, temp, time, cameraView, cameraProjection);
+            base.render(cameraView, cameraProjection);
 
             /*_shader.SetVector3("ourColor", new Vector3(0.0f, 0f, 0f));
             GL.DrawElements(PrimitiveType.LineLoop, _indices.Count, DrawElementsType.UnsignedInt, 0);*/

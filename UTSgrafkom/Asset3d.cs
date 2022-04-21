@@ -67,7 +67,7 @@ namespace UTSgrafkom
         }
 
 
-        public void render(int pilihan, Matrix4 temp, double time, Matrix4 cameraView, Matrix4 cameraProjection)
+        public void render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
             _shader.Use();
             GL.BindVertexArray(_vertexArrayObject);
@@ -92,12 +92,7 @@ namespace UTSgrafkom
             }
             else
             {
-                switch (pilihan)
-                {
-                    case 1:
-                        GL.DrawArrays(PrimitiveType.LineStrip, 0, _vertices.Count);
-                        break;
-                }
+                GL.DrawArrays(PrimitiveType.LineStrip, 0, _vertices.Count);
             }
         }
         public void resetEuler()

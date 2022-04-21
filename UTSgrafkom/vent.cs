@@ -9,7 +9,7 @@ using OpenTK.Mathematics;
 
 namespace UTSgrafkom
 {
-    internal class vent : Asset3d
+    internal class vent : Asset3d, Item
     {
 
         public vent(Vector3 color) : base(color)
@@ -20,9 +20,9 @@ namespace UTSgrafkom
             public const string path = "D:../../../shader/";
         }
 
-        public void render(int pilihan, Matrix4 temp, double time, Matrix4 cameraView, Matrix4 cameraProjection)
+        public void render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
-            base.render(pilihan, temp, time, cameraView, cameraProjection);
+            base.render(cameraView, cameraProjection);
 
             /*_shader.SetVector3("ourColor", new Vector3(0.0f, 0f, 0f));
             GL.DrawElements(PrimitiveType.LineLoop, _indices.Count, DrawElementsType.UnsignedInt, 0);*/
@@ -106,6 +106,11 @@ namespace UTSgrafkom
                 0,1,3,
                 1,2,3
             };
+        }
+
+        public void load(int sizeX, int sizeY)
+        {
+            throw new NotImplementedException();
         }
     }
 }

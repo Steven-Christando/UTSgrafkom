@@ -9,7 +9,7 @@ using OpenTK.Mathematics;
 
 namespace UTSgrafkom
 {
-    internal class reactor : Asset3d
+    internal class reactor : Asset3d, Item
     {
         float degr = 0;
         Vector3 warna;
@@ -49,20 +49,18 @@ namespace UTSgrafkom
         {
             public const string path = "D:../../../shader/";
         }
-        public void load(float SizeX, float SizeY)
+        public void load(int SizeX, int SizeY)
         {
             foreach (Asset3d i in listObject)
             {
                 i.load(Constants.path + "shader.vert", Constants.path + "shader.frag", SizeX, SizeY);
             }
         }
-        public void render(double times, Matrix4 temps, Matrix4 cameraView, Matrix4 cameraProjection)
+        public void render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
-            time += 15.0 * times;
-            Matrix4 temp = Matrix4.Identity;
             for (int i = 0; i < listObject.Count; i++)
             {
-                listObject[i].render(1, temp, time, cameraView, cameraProjection);
+                listObject[i].render(cameraView, cameraProjection);
             }
         }
     }

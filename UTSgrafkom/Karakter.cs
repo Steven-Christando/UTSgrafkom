@@ -9,7 +9,7 @@ using OpenTK.Mathematics;
 
 namespace UTSgrafkom
 {
-    internal class Karakter : Asset3d
+    internal class Karakter : Asset3d, Item
     {
         float degr = 0;
         double time;
@@ -90,7 +90,7 @@ namespace UTSgrafkom
 
         }
 
-        public void load(float SizeX,float SizeY)
+        public void load(int SizeX,int SizeY)
         {
             foreach (Asset3d i in listObject)
             {
@@ -99,13 +99,12 @@ namespace UTSgrafkom
             }
         }
 
-        public void render(double times, Matrix4 temps, Matrix4 cameraView, Matrix4 cameraProjection)
+        public void render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
-            time += 15.0 * times;
-            Matrix4 temp = Matrix4.Identity;
+            
             for (int i = 0; i < listObject.Count; i++)
             {
-                listObject[i].render(1, temp, time, cameraView, cameraProjection);
+                listObject[i].render(cameraView, cameraProjection);
             }
             if(type == 0)
             {
