@@ -331,6 +331,61 @@ namespace ConsoleApp1
             }
         }
 
+        public void createSphere(float x, float y, float z, float radXYZ, float sectorCount, float stackCount)
+        {
+            objectCenter = new Vector3(x, y, z);
+
+            float pi = (float)Math.PI;
+            Vector3 temp_vector;
+            float sectorStep = 2 * pi / sectorCount;
+            float stackStep = pi / stackCount;
+            float sectorAngle, stackAngle, tempX, tempY, tempZ;
+
+            for (int i = 0; i <= stackCount; ++i)
+            {
+                stackAngle = pi / 2 - i * stackStep;
+                tempX = radXYZ * (float)Math.Cos(stackAngle);
+                tempY = radXYZ * (float)Math.Sin(stackAngle);
+                tempZ = radXYZ * (float)Math.Cos(stackAngle);
+
+                for (int j = 0; j <= sectorCount; ++j)
+                {
+                    sectorAngle = j * sectorStep;
+
+                    temp_vector.X = x + tempX * (float)Math.Cos(sectorAngle);
+                    temp_vector.Y = y + tempY;
+                    temp_vector.Z = z + tempZ * (float)Math.Sin(sectorAngle);
+
+                    vertices.Add(temp_vector);
+                }
+            }
+
+            uint k1, k2;
+            for (int i = 0; i < stackCount; ++i)
+            {
+                k1 = (uint)(i * (sectorCount + 1));
+                k2 = (uint)(k1 + sectorCount + 1);
+
+                for (int j = 0; j < sectorCount; ++j, ++k1, ++k2)
+                {
+                    if (i != 0)
+                    {
+                        indices.Add(k1);
+                        indices.Add(k2);
+                        indices.Add(k1 + 1);
+
+                    }
+
+                    if (i != stackCount - 1)
+                    {
+                        indices.Add(k1 + 1);
+                        indices.Add(k2);
+                        indices.Add(k2 + 1);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region transforms
