@@ -141,7 +141,7 @@ namespace UTSgrafkom
             float _positionY = y;
             float _positionZ = z;
 
-            float _boxLength = 0.6f;
+            float _boxLength = 0.3f;
 
             //Buat temporary vector
             Vector3 temp_vector;
@@ -396,21 +396,6 @@ namespace UTSgrafkom
                     _indices.Add(k1 + 1);
                     _indices.Add(k2);
                     _indices.Add(k2 + 1);
-                }
-            }
-        }
-        public void createElipticParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
-
-        {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
-            {
-                for (float v = 0.0f; v < 5.0f; v += 0.01f)
-                {
-                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * v * v + z;
-                    _vertices.Add(tempVertex);
                 }
             }
         }

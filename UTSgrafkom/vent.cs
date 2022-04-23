@@ -34,27 +34,27 @@ namespace UTSgrafkom
             //1. Inisialisasi vertex
             // Titik 0 kiri depan
             temp_vector.X = -1.3f;// x 
-            temp_vector.Y = -0.43f;// y
+            temp_vector.Y = -0.4445f;// y
             temp_vector.Z = -0.8f;// z
 
             _vertices.Add(temp_vector);
 
             // Titik 1 kiri belakang
             temp_vector.X = -1.5f;// x
-            temp_vector.Y = -0.43f;// y
+            temp_vector.Y = -0.4445f;// y
             temp_vector.Z = -1f;// z
 
             _vertices.Add(temp_vector);
 
             // Titik 2 kanan depan
             temp_vector.X = -1f;// x
-            temp_vector.Y = -0.43f;// y
+            temp_vector.Y = -0.4445f;// y
             temp_vector.Z = -0.8f;// z
             _vertices.Add(temp_vector);
 
             // Titik 3 kanan belakang
             temp_vector.X = -1.2f;// x
-            temp_vector.Y = -0.43f; // y
+            temp_vector.Y = -0.4445f; // y
             temp_vector.Z = -1f;// z
 
             _vertices.Add(temp_vector);
@@ -74,14 +74,14 @@ namespace UTSgrafkom
             //1. Inisialisasi vertex
             // Titik 0 kiri bawah
             temp_vector.X = -1.2f;// x 
-            temp_vector.Y = -0.43f;// y
+            temp_vector.Y = -0.4445f;// y
             temp_vector.Z = -1f;// z
 
             _vertices.Add(temp_vector);
 
             // Titik 1 kanan bawah
             temp_vector.X = -1f;// x
-            temp_vector.Y = -0.43f;// y
+            temp_vector.Y = -0.4445f;// y
             temp_vector.Z = -0.8f;// z
 
             _vertices.Add(temp_vector);
@@ -107,7 +107,7 @@ namespace UTSgrafkom
                 1,2,3
             };
         }
-
+        
         public void load(int sizeX, int sizeY)
         {
             throw new NotImplementedException();
