@@ -11,12 +11,14 @@ namespace UTSgrafkom
     internal class Meja: Item
     {
         //untuk animasi
-        int counter;
+        int counter = 0;
+        float degr = -0.2f;
         int increment = 1;
-        float speed = 0.005f;
+        float speed = 1f;
 
+        Vector3 pusatTutup;
         List<Asset3d2> listObject = new List<Asset3d2>();
-        Asset3d2 laser;
+        Asset3d2 tutupTombol;
 
         public Meja()
         {
@@ -65,20 +67,32 @@ namespace UTSgrafkom
             alas.child.Add(alasTombol);
            
             Asset3d2 bingkaiTombol = new Asset3d2(softYellow);
-            bingkaiTombol.createBlock(0, 0, 0.001f, 0.15f, 0.15f, 0);
+            bingkaiTombol.createBlock(0, 0, 0, 0.15f, 0.15f, 0);
             bingkaiTombol.rotate(bingkaiTombol.objectCenter, Vector3.UnitZ, 120f);
             alas.child.Add(bingkaiTombol);
+            bingkaiTombol.translate(0f, 0f, 0.001f);
 
             Asset3d2 alasTutupTombol = new Asset3d2(softBlue);
-            alasTutupTombol.createBlock(0, 0, 0.002f, 0.11f, 0.11f, 0);
+            alasTutupTombol.createBlock(0, 0, 0, 0.11f, 0.11f, 0);
             alasTutupTombol.rotate(alasTutupTombol.objectCenter, Vector3.UnitZ, 120f);
             alas.child.Add(alasTutupTombol);
+            alasTutupTombol.translate(0f, 0f, 0.002f);
+
+            tutupTombol = new Asset3d2(softBlue);
+            tutupTombol.createBlock2(0, 0, 0, 0.11f, 0.11f, 0.055f);
+            tutupTombol.rotate(tutupTombol.objectCenter, Vector3.UnitZ, 120);
+            alas.child.Add(tutupTombol);
+            tutupTombol.translate(0f, 0f, 0.03f);
+
 
             //rotate supaya keliatan tidur
             alas.rotate(new Vector3(0, 0, 0), Vector3.UnitX, -90f);
             alas.translate(0f, -0.3f, -0.5f);
             listObject.Add(alas);
             alas.rotate(alas.objectCenter, Vector3.UnitY, -30f);
+
+            pusatTutup = tutupTombol.objectCenter;
+
         }
 
         public void load(int SizeX, int SizeY)
@@ -95,6 +109,24 @@ namespace UTSgrafkom
             {
                 listObject[i].render(cameraView, cameraProjection);
             }
+
+            Vector3 temp = new Vector3(0, 0.02f, 0.011f);
+            tutupTombol.rotate(pusatTutup - temp, Vector3.UnitX, degr);
+            counter += increment;
+
+            if (counter > 400)
+            {
+                degr *= -1;
+                increment *= -1;
+                
+            }
+
+            if (counter < 0)
+            {
+                degr *= -1;
+                increment *= -1;
+            }
+            Console.WriteLine(degr);
         }
     }
 }

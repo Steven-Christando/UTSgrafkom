@@ -98,7 +98,6 @@ namespace UTSgrafkom
             daging.rotate(objectCenter, Vector3.UnitY, 90);
             badan.child.Add(daging);
             
-
             batangTulang = new Asset3d(new Vector3(249 / 255f, 246 / 255f, 238 / 255f));
             batangTulang.tabung(0,0,0.4f,0.02f,0.02f,0.005f);
             batangTulang.rotate(objectCenter, Vector3.UnitY, 90);
@@ -109,24 +108,22 @@ namespace UTSgrafkom
             bolaTulang1.createSphere(0.4f, 0, 0.015f, 0.02f, 30, 30);
             badan.child.Add(bolaTulang1);
             
-
             bolaTulang2 = new Asset3d(new Vector3(249 / 255f, 246 / 255f, 238 / 255f));
             bolaTulang2.createSphere(0.4f, 0, -0.015f, 0.02f, 30, 30);
             badan.child.Add(bolaTulang2);
             
-
             kakiKiri = new Asset3d(this.color);
             kakiKiri.tabung(0.05f, 0, 0.25f, 0.035f, 0.035f, 0.0065f);
             kakiKiri.rotate(objectCenter, Vector3.UnitY, 90);
             badan.child.Add(kakiKiri);
             
-            
             kakiKanan = new Asset3d(this.color);
             kakiKanan.tabung(-0.05f, 0, 0.25f, 0.035f, 0.035f, 0.0065f);
-            kakiKanan.rotate(objectCenter, Vector3.UnitY, 90);
+            kakiKanan.rotate(objectCenter, Vector3.UnitY, 90); 
+            kakiKanan.rotate(badan.objectCenter, Vector3.UnitZ, 15);
             badan.child.Add(kakiKanan);
 
-            badan.rotate(objectCenter, Vector3.UnitY, -0);
+            badan.rotate(objectCenter, Vector3.UnitY, -15);
             badan.translate(-0.8f, -0.35f, -0.20f);
 
             listObject.Add(badan);
@@ -148,12 +145,12 @@ namespace UTSgrafkom
 
         public void Render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
-            
+
             for (int i = 0; i < listObject.Count; i++)
             {
                 listObject[i].render(cameraView, cameraProjection);
             }
-            //if(type == 0)
+            //if (type == 0)
             //{
             //    if (increment == 0 || increment == 100)
             //    {
@@ -161,8 +158,8 @@ namespace UTSgrafkom
             //        degree *= -1;
             //    }
             //    increment += change;
-            //    badan.rotate(badan.objectCenter, Vector3.UnitY, degree);
+            //    badan.rotate(badan.objectcenter, vector3.unity, degree);
             //}
         }
-    }
+}
 }
