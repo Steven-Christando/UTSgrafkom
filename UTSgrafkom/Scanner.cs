@@ -28,6 +28,7 @@ namespace UTSgrafkom
             Vector3 green = new Vector3(113 / 255f, 231 / 255f, 172 / 255f);
             Vector3 red = new Vector3(247 / 255f, 7 / 255f, 5 / 255f);
             Vector3 darkRed = new Vector3(200 / 255f, 0 / 255f, 0 / 255f);
+            Vector3 white = new Vector3(1, 1, 1);
 
 
             Asset3d2 alas = new Asset3d2(darkGrey);
@@ -131,10 +132,62 @@ namespace UTSgrafkom
 
 
             //SCREEN
+            Asset3d2 layar = new Asset3d2(red);
+            layar.createBlock(0, 0, 0, 0.5f, 0.25f, 0.05f);
+
+            Asset3d2 frameL = new Asset3d2(darkGrey);
+            frameL.createBlock(0, 0, 0, 0.05f, 0.3f, 0.06f);
+            frameL.translate(-0.25f, 0f, 0f);
+            layar.child.Add(frameL);
+
+            Asset3d2 frameR = new Asset3d2(darkGrey);
+            frameR.createBlock(0, 0, 0, 0.05f, 0.3f, 0.06f);
+            frameR.translate(0.25f, 0f, 0f);
+            layar.child.Add(frameR);
+
+            Asset3d2 frameT = new Asset3d2(darkGrey);
+            frameT.createBlock(0, 0, 0, 0.5f, 0.05f, 0.06f);
+            frameT.translate(0f, 0.125f, 0f);
+            layar.child.Add(frameT);
+
+            Asset3d2 frameB = new Asset3d2(darkGrey);
+            frameB.createBlock(0, 0, 0, 0.5f, 0.05f, 0.06f);
+            frameB.translate(0f, -0.125f, 0f);
+            layar.child.Add(frameB);
+
+            Asset3d2 stand = new Asset3d2(grey);
+            stand.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            stand.rotate(stand.objectCenter, Vector3.UnitX, 90f);
+            stand.translate(0f, -0.3f, 0f);
+            layar.child.Add(stand);
+
+            Asset3d2 line = new Asset3d2(white);
+            line.tabung(0, 0, 0, 0.01f, 0.01f, 0.02f);
+            line.rotate(line.objectCenter, Vector3.UnitY, 90f);
+            line.translate(0.2f, 0, 0.03f);
+            layar.child.Add(line);
+
+            Asset3d2 line2 = new Asset3d2(white);
+            line2.tabung(0, 0, 0, 0.01f, 0.01f, 0.02f);
+            line2.rotate(line2.objectCenter, Vector3.UnitY, 90f);
+            line2.translate(0.2f, 0.05f, 0.03f);
+            layar.child.Add(line2);
+
+            Asset3d2 line3 = new Asset3d2(white);
+            line3.tabung(0, 0, 0, 0.01f, 0.01f, 0.02f);
+            line3.rotate(line3.objectCenter, Vector3.UnitY, 90f);
+            line3.translate(0.2f, -0.05f, 0.03f);
+            layar.child.Add(line3);
+
+
+            //atur posisi
+            layar.translate(2.5f, -0.1f, -0.5f);
+            layar.rotate(layar.objectCenter, Vector3.UnitY, -35f);
 
 
             listObject.Add(alas);
             listObject.Add(badan);
+            listObject.Add(layar);
         }
 
         public void load(int SizeX, int SizeY)
