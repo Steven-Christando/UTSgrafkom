@@ -56,7 +56,7 @@ namespace UTSgrafkom
                 i.load(Constants.path + "shader.vert", Constants.path + "shader.frag", SizeX, SizeY);
             }
         }
-        public void render(Matrix4 cameraView, Matrix4 cameraProjection)
+        public void Render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
             for (int i = 0; i < listObject.Count; i++)
             {

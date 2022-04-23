@@ -52,10 +52,22 @@ namespace UTSgrafkom
             
 
             //SCANNER
-            Scanner scanner = new Scanner();
+/*            Scanner scanner = new Scanner();
             scanner.load(Size.X, Size.Y);
 
-            listObject.Add(scanner);
+            listObject.Add(scanner);*/
+
+            //Meja
+            Meja meja = new Meja();
+            meja.load(Size.X,Size.Y);
+            listObject.Add(meja);
+
+            //Dead Character
+            Karakter mayatKarakter = new Karakter(0, 0, 0, new Vector3(0, 0.5f, 1));
+            mayatKarakter.mayatKarakter();
+            mayatKarakter.load(Size.X,Size.Y);
+            listObject.Add(mayatKarakter);
+
 
             //dari reactor
             ruang = new ruangan(new Vector3(0, 0.5f, 1));
@@ -99,7 +111,7 @@ namespace UTSgrafkom
             //SCANNER
             foreach (Item i in listObject)
             {
-                i.render(camera.GetViewMatrix(), camera.GetProjectionMatrix());
+                i.Render(camera.GetViewMatrix(), camera.GetProjectionMatrix());
             }
             SwapBuffers();
         }

@@ -12,6 +12,6 @@ namespace UTSgrafkom
     internal interface Item
     {
         void load(int sizeX, int sizeY);
-        void render(Matrix4 cameraView, Matrix4 cameraProjection);
+        void Render(Matrix4 cameraView, Matrix4 cameraProjection);
     }
 }
