@@ -13,12 +13,16 @@ namespace UTSgrafkom
         //untuk animasi
         int counter = 0;
         float degr = -0.2f;
+        float degrKaki = -1.2f;
+        int counterKaki = 0;
+        int incrementKaki = 1;
+        
         int increment = 1;
         float speed = 1f;
 
         Vector3 pusatTutup;
         List<Asset3d2> listObject = new List<Asset3d2>();
-        Asset3d2 tutupTombol;
+        Asset3d2 tutupTombol, kakiL, kakiR, kabelTombol, kabelTombol2;
 
         public Meja()
         {
@@ -31,6 +35,7 @@ namespace UTSgrafkom
             Vector3 softBlue = new Vector3(194 / 255f, 222 / 255f, 235 / 255f);
             Vector3 orange = new Vector3(248 / 255f, 180 / 255f, 0 / 255f);
             Vector3 darkOrange = new Vector3(247 / 255f, 150 / 255f, 0 / 255f);
+            Vector3 cyan = new Vector3(0 / 255f, 255 / 255f, 255 / 255f);
 
 
             Asset3d2 alas = new Asset3d2(darkGrey);
@@ -96,7 +101,6 @@ namespace UTSgrafkom
             pusatTutup = tutupTombol.objectCenter;
 
             //KARAKTER
-
             Asset3d2 badan = new Asset3d2(orange);
             badan.tabung(0, 0, 0, 0.1f, 0.1f, 0.005f);
             badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
@@ -112,15 +116,15 @@ namespace UTSgrafkom
             google.createEllipsoid(0, 0, 0, 0.06f, 0.03f, 0.01f, 25, 25);
             google.translate(0, 0.1f, 0.1f);
 
-            Asset3d2 kakiL = new Asset3d2(darkOrange);
+            kakiL = new Asset3d2(darkOrange);
             kakiL.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
-            kakiL.rotate(kakiL.objectCenter, Vector3.UnitX, 120f);
-            kakiL.translate(-0.05f, -0.15f, -0.05f);
+            kakiL.rotate(kakiL.objectCenter, Vector3.UnitX, -60f);
+            kakiL.translate(-0.05f, -0.008f, 0f);
 
-            Asset3d2 kakiR = new Asset3d2(darkOrange);
+            kakiR = new Asset3d2(darkOrange);
             kakiR.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
-            kakiR.rotate(kakiR.objectCenter, Vector3.UnitX, 60f);
-            kakiR.translate(0.05f, -0.15f, 0.05f);
+            kakiR.rotate(kakiR.objectCenter, Vector3.UnitX, -120f);
+            kakiR.translate(0.05f, -0.008f, 0.03f);
 
             Asset3d2 tas = new Asset3d2(darkOrange);
             tas.createBlock(0, 0, 0, 0.18f, 0.18f, 0.07f);
@@ -138,9 +142,66 @@ namespace UTSgrafkom
             badan.child.Add(tas);
             badan.child.Add(angel);
 
-            badan.rotate(badan.objectCenter, Vector3.UnitY, -45f);
+            badan.rotate(badan.objectCenter, Vector3.UnitY, -90f);
             badan.translate(0.6f, -0.3f, -0.5f);
             listObject.Add(badan);
+
+            //Tembok
+            Asset3d2 tembokBlkgAtas = new Asset3d2(new Vector3(0 / 255f, 247 / 255f, 247 / 255f));
+            tembokBlkgAtas.createBlock(0, 0, 0, 2, 0.7f, 0);
+            tembokBlkgAtas.translate(0,0.6f,-0.999f);
+            listObject.Add(tembokBlkgAtas);
+
+            Asset3d2 tembokBlkgBawah = new Asset3d2(new Vector3(212 / 255f, 0 / 255f, 0 / 255f));
+            tembokBlkgBawah.createBlock(0, 0, 0, 2, 0.7f, 0);
+            tembokBlkgBawah.translate(0, -0.1f, -0.999f);
+            listObject.Add(tembokBlkgBawah);
+
+            Asset3d2 tembokKiriAtas = new Asset3d2(cyan);
+            tembokKiriAtas.createBlock(0, 0, 0, 0, 0.7f, 1);
+            tembokKiriAtas.translate(-0.999f, 0.6f, -0.5f);
+            listObject.Add(tembokKiriAtas);
+
+            Asset3d2 tembokKiriBawah = new Asset3d2(new Vector3(220 / 255f, 0 / 255f, 0 / 255f));
+            tembokKiriBawah.createBlock(0, 0, 0, 0, 0.7f, 1);
+            tembokKiriBawah.translate(-0.999f, -0.1f, -0.5f);
+            listObject.Add(tembokKiriBawah);
+
+            Asset3d2 tembokKananAtas = new Asset3d2(cyan);
+            tembokKananAtas.createBlock(0, 0, 0, 0, 0.7f, 1);
+            tembokKananAtas.translate(0.999f, 0.6f, -0.5f);
+            listObject.Add(tembokKananAtas);
+
+            Asset3d2 tembokKananBawah = new Asset3d2(new Vector3(220 / 255f, 0 / 255f, 0 / 255f));
+            tembokKananBawah.createBlock(0, 0, 0, 0, 0.7f, 1);
+            tembokKananBawah.translate(0.999f, -0.1f, -0.5f);
+            listObject.Add(tembokKananBawah);
+
+            Asset3d2 lantai = new Asset3d2(new Vector3(220 / 255f, 180 / 255f, 100 / 255f));
+            lantai.createBlock(0, 0, 0, 2f, 0, 1);
+            lantai.translate(0, -0.449f, -0.5f);
+            listObject.Add(lantai);
+
+            kabelTombol = new Asset3d2(new Vector3(red));
+            kabelTombol.prepareVertices();
+            kabelTombol.setControlCoordinate(0f, 0f, 0f);
+            kabelTombol.setControlCoordinate(-0.05f, 0f, 0.1f);
+            kabelTombol.setControlCoordinate(-0.2f, 0f, 0.1f);
+            kabelTombol.setControlCoordinate(-0.25f, 0f, -0.215f);
+            List<Vector3> _verticesBazier = kabelTombol.createCurveBazier();
+            kabelTombol.setVertices(_verticesBazier);
+            kabelTombol.translate(0, -0.297f, -0.47f);
+            listObject.Add(kabelTombol);
+
+            kabelTombol2 = new Asset3d2(new Vector3(red));
+            kabelTombol2.prepareVertices();
+            kabelTombol2.setControlCoordinate(-0.25f, 0f, -0.215f);
+            kabelTombol2.setControlCoordinate(-0.25f, -0.01f, -0.250f);
+            kabelTombol2.setControlCoordinate(-0.25f, -0.15f, -0.215f);
+            List<Vector3> _verticesBazier2 = kabelTombol2.createCurveBazier();
+            kabelTombol2.setVertices(_verticesBazier2);
+            kabelTombol2.translate(0, -0.297f, -0.47f);
+            listObject.Add(kabelTombol2);
         }
 
         public void load(int SizeX, int SizeY)
@@ -174,7 +235,14 @@ namespace UTSgrafkom
                 degr *= -1;
                 increment *= -1;
             }
-            Console.WriteLine(degr);
+
+            kakiR.rotate(kakiR.objectCenter, Vector3.UnitZ, degrKaki);;
+            kakiL.rotate(kakiL.objectCenter, Vector3.UnitZ, -degrKaki);
+            counterKaki += incrementKaki;
+            if(counterKaki <= -80 || counterKaki >= 20){
+                degrKaki *= -1;
+                incrementKaki *= -1;
+            }
         }
     }
 }

@@ -112,7 +112,7 @@ namespace UTSgrafkom
 
         public void mayatKarakter()
         {
-            badan = new Asset3d(this.color);
+            badan = new Asset3d(new Vector3(0 / 255f, 255 / 255f, 255 / 255f));
             badan.createHalfEllipsoid(0.1f, 0.1f, 0.1f, 0.0f, -0.3f, 0.0f);
             badan.rotate(objectCenter, Vector3.UnitZ, 90);
             type = 2;
@@ -136,12 +136,12 @@ namespace UTSgrafkom
             bolaTulang2.createSphere(0.4f, 0, -0.015f, 0.02f, 30, 30);
             badan.child.Add(bolaTulang2);
             
-            kakiKiri = new Asset3d(this.color);
+            kakiKiri = new Asset3d(new Vector3(0 / 255f, 247 / 255f, 247 / 255f));
             kakiKiri.tabung(0.05f, 0, 0.25f, 0.035f, 0.035f, 0.0065f);
             kakiKiri.rotate(objectCenter, Vector3.UnitY, 90);
             badan.child.Add(kakiKiri);
             
-            kakiKanan = new Asset3d(this.color);
+            kakiKanan = new Asset3d(new Vector3(0 / 255f, 240 / 255f, 240 / 255f));
             kakiKanan.tabung(-0.05f, 0, 0.25f, 0.035f, 0.035f, 0.0065f);
             kakiKanan.rotate(objectCenter, Vector3.UnitY, 90); 
             kakiKanan.rotate(badan.objectCenter, Vector3.UnitZ, 15);
