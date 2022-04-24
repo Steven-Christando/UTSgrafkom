@@ -13,6 +13,11 @@ namespace UTSgrafkom
         public List<Vector3> _vertices = new List<Vector3>();
         public List<uint> _indices = new List<uint>();
 
+        public float[] verticesCurve = {};
+        /*public uint[] indicesCurve = {};*/
+        int index;
+        int[] _pascal;
+
         private Vector3 _color;
 
         int _vertexBufferObject;
@@ -140,7 +145,7 @@ namespace UTSgrafkom
             float _positionY = y;
             float _positionZ = z;
 
-            float _boxLength = 0.6f;
+            float _boxLength = 0.3f;
 
             //Buat temporary vector
             Vector3 temp_vector;
@@ -420,20 +425,68 @@ namespace UTSgrafkom
                 }
             }
         }
-        public void createElipticParaboloid(float x, float y, float z, float radiusX, float radiusY, float radiusZ)
 
+        public void prepareVertices()
         {
-            var tempVertex = new Vector3();
-            for (float u = -MathF.PI; u < MathF.PI; u += MathF.PI / 1000.0f)
+            verticesCurve = new float[1080];
+            index = 0;
+        }
+        public void setControlCoordinate(float x, float y, float z)
+        {
+            verticesCurve[index * 3] = x;
+            verticesCurve[index * 3 + 1] = y;
+            verticesCurve[index * 3 + 2] = z;
+            index++;
+        }
+        public List<int> getRow(int rowIndex)
+        {
+            List<int> currow = new List<int>();
+            //------
+            currow.Add(1);
+            if (rowIndex == 0)
             {
-                for (float v = 0.0f; v < 5.0f; v += 0.01f)
-                {
-                    tempVertex.X = radiusX * v * MathF.Cos(u) + x;
-                    tempVertex.Y = radiusY * v * MathF.Sin(u) + y;
-                    tempVertex.Z = radiusZ * v * v + z;
-                    _vertices.Add(tempVertex);
-                }
+                return currow;
             }
+            //-----
+            List<int> prev = getRow(rowIndex - 1);
+            for (int i = 1; i < prev.Count; i++)
+            {
+                int curr = prev[i - 1] + prev[i];
+                currow.Add(curr);
+            }
+            currow.Add(1);
+            return currow;
+
+        }
+        public List<Vector3> createCurveBazier()
+        {
+            List<Vector3> _verticesBazier = new List<Vector3>();
+            List<int> pascal = getRow(index - 1);
+            _pascal = pascal.ToArray();
+            for (float t = 0; t <= 1; t += 0.01f)
+            {
+                Vector3 p = getP(index, t);
+                _verticesBazier.Add(p);
+            }
+            return _verticesBazier;
+        }
+        public Vector3 getP(int n, float t)
+        {
+            Vector3 p = new Vector3(0, 0,0);
+            float k;
+            for (int i = 0; i < n; i++)
+            {
+                k = (float)Math.Pow((1 - t), n - 1 - i) * (float)Math.Pow(t, i) * _pascal[i];
+                p.X += k * verticesCurve[i * 3];
+                p.Y += k * verticesCurve[i * 3 + 1];
+                p.Z += k * verticesCurve[i * 3 + 2];
+
+            }
+            return p;
+        }
+        public void setVertices(List<Vector3> temp)
+        {
+            _vertices = temp;
         }
         #endregion
         #region transform

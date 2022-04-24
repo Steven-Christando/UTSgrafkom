@@ -49,7 +49,7 @@ namespace UTSgrafkom
 
             Karakter karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
             karakter.load(Size.X,Size.Y);
-            
+
 
             //SCANNER
 /*            Scanner scanner = new Scanner();
@@ -78,12 +78,12 @@ namespace UTSgrafkom
             reaktor1.load(Size.X, Size.Y);
             listObject.Add(reaktor1);
 
-            coba1 = new vent(new Vector3(0, 0, 0));
+            coba1 = new vent(new Vector3(0,0,0));
             coba1.alasVent();
             coba1.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);
             listObject.Add(coba1);
 
-            coba2 = new vent(new Vector3(0, 0, 0));
+            coba2 = new vent(new Vector3(118 / 255f, 120 / 255f, 137 / 255f));
             coba2.tutupVent();
             coba2.load(Constants.path + "shader.vert", Constants.path + "shader.frag", Size.X, Size.Y);
             listObject.Add(coba2);

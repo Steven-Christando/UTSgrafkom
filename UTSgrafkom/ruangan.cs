@@ -27,7 +27,7 @@ namespace UTSgrafkom
             tembokKanan = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
             tembokKanan.createSampingKanan(0f, 0, -1f);
 
-            belakang = new tembok(new Vector3(0.231f, 0.231f, 0.231f));
+            belakang = new tembok(new Vector3(1f, 1f, 1f));
             belakang.createBelakang(0f, 0, -1f);
 
             sekat1 = new tembok(new Vector3(0f, 0f, 0f));
