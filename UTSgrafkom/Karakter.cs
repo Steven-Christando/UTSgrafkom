@@ -78,15 +78,15 @@ namespace UTSgrafkom
             google = new Asset3d(new Vector3(0.5f,0.5f,0.5f));
             google.createEllipsoid(0.0f, -0.2f, 0.1f, 0.05f, 0.03f, 0.04f, 25, 25);
 
-            kakiKiri = new Asset3d(new Vector3(this.color));
+            kakiKiri = new Asset3d(new Vector3(33 / 255f, 226 / 255f, 171 / 255f));
             kakiKiri.tabung(-0.061f, -0.3f, 0.15f, 0.04f, 0.03f, 0.01f);
             kakiKiri.rotate(badan.objectCenter, Vector3.UnitX, 90f);
 
-            kakiKanan = new Asset3d(new Vector3(this.color));
+            kakiKanan = new Asset3d(new Vector3(33 / 255f, 226 / 255f, 171 / 255f));
             kakiKanan.tabung(0.061f, -0.3f, 0.15f, 0.04f, 0.03f, 0.01f);
             kakiKanan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
 
-            tas = new Asset3d(new Vector3(this.color));
+            tas = new Asset3d(new Vector3(33 / 255f, 226 / 255f, 171 / 255f));
             tas.createBoxVertices(0, -0.275f, -0.05f);
 
             badan.child.Add(kepala);

@@ -42,7 +42,7 @@ namespace UTSgrafkom
             holder = new Asset3d(new Vector3(153 / 255f, 23 / 255f, 86 / 255f));
             holder.createTorus(0, 0.425f, 0, 0.07f, 0.015f, 30, 30);
 
-            bolaReaktor = new Asset3d(new Vector3(19 / 255f, 44 / 255f, 103 / 255f));
+            bolaReaktor = new Asset3d(new Vector3(71 / 255f, 255 / 255f, 253 / 255f));
             bolaReaktor.createSphere(0, 0.4f, 0, 0.07f, 30, 30);
 
             tabungMedium.child.Add(holder);
