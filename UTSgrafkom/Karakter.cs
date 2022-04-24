@@ -104,6 +104,9 @@ namespace UTSgrafkom
             listObject.Add(pantat);
             listObject.Add(google);
 
+            listObject.Add(kakiKanan);
+            listObject.Add(kakiKiri);
+            listObject.Add(tas);
             type = 1;
         }
 

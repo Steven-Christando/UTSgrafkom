@@ -52,10 +52,10 @@ namespace UTSgrafkom
 
 
             //SCANNER
-/*            Scanner scanner = new Scanner();
+            Scanner scanner = new Scanner();
             scanner.load(Size.X, Size.Y);
 
-            listObject.Add(scanner);*/
+            listObject.Add(scanner);
 
             //Meja
             Meja meja = new Meja();
