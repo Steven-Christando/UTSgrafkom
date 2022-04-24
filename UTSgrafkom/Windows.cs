@@ -93,7 +93,7 @@ namespace UTSgrafkom
             karakterVent.load(Size.X, Size.Y);
             listObject.Add(karakterVent);
 
-            karakterReactor = new Karakter(0, 0, 0, new Vector3(0.5f, 0.5f, 0));
+            karakterReactor = new Karakter(0, 0, 0, new Vector3(33/255f, 226/255f, 171/255f));
             karakterReactor.karakterReaktor();
             karakterReactor.load(Size.X, Size.Y);
             listObject.Add(karakterReactor);
