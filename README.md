@@ -13,3 +13,4 @@ project UTS Grafika Komputer Kelas A
 <a href = "https://peterpetraacid-my.sharepoint.com/:v:/g/personal/c14200094_peterpetraacid_onmicrosoft_com/ERAyxWcqzX1CuIji0HiC2gQBMJKs1uoPtTJxxT4NpP-n5A?e=hIyzgg">Rekaman demo project</a>
 </div>
 
+![image](https://user-images.githubusercontent.com/77012214/164980860-8556b5b2-dea2-4001-a165-72f6cc121189.png)
