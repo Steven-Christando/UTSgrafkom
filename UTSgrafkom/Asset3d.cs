@@ -71,7 +71,6 @@ namespace UTSgrafkom
             projection = Matrix4.CreatePerspectiveFieldOfView(MathHelper.DegreesToRadians(45f), sizex / (float)sizey, 0.1f, 100.0f);
         }
 
-
         public void render(Matrix4 cameraView, Matrix4 cameraProjection)
         {
             _shader.Use();
@@ -287,6 +286,28 @@ namespace UTSgrafkom
                 }
             }
         }
+
+        public void createHalfEllipsoid(float radiusX, float radiusY, float radiusZ, float _x, float _y, float _z)
+        {
+
+            objectCenter.X = _x;
+            objectCenter.Y = _y;
+            objectCenter.Z = _z;
+
+            float pi = (float)Math.PI;
+            Vector3 temp_vector;
+            for (float v = -pi / 2; v <= pi / 2; v += pi / 1000)
+            {
+                for (float u = 0; u <= pi; u += pi / 1000)
+                {
+                    temp_vector.X = _x + (float)Math.Cos(v) * (float)Math.Cos(u) * radiusX;
+                    temp_vector.Y = _y + (float)Math.Cos(v) * (float)Math.Sin(u) * radiusY;
+                    temp_vector.Z = _z + (float)Math.Sin(v) * radiusZ;
+                    _vertices.Add(temp_vector);
+                }
+            }
+        }
+
         public void createSphere(float x, float y, float z, float radXYZ, float sectorCount, float stackCount)
         {
             objectCenter = new Vector3(x, y, z);

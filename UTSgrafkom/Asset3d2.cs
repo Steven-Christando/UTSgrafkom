@@ -124,51 +124,51 @@ namespace ConsoleApp1
             Vector3 temp_vector;
 
             //Titik 1
-            temp_vector.X = x_ - length / 2.0f;
-            temp_vector.Y = y_ + length / 2.0f;
-            temp_vector.Z = z_ - length / 2.0f;
+            temp_vector.X = x_ - length / 8.0f;
+            temp_vector.Y = y_ + length / 8.0f;
+            temp_vector.Z = z_ - length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 2
-            temp_vector.X = x_ + length / 2.0f;
-            temp_vector.Y = y_ + length / 2.0f;
-            temp_vector.Z = z_ - length / 2.0f;
+            temp_vector.X = x_ + length / 8.0f;
+            temp_vector.Y = y_ + length / 8.0f;
+            temp_vector.Z = z_ - length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 3
-            temp_vector.X = x_ - length / 2.0f;
-            temp_vector.Y = y_ - length / 2.0f;
-            temp_vector.Z = z_ - length / 2.0f;
+            temp_vector.X = x_ - length / 8.0f;
+            temp_vector.Y = y_ - length / 8.0f;
+            temp_vector.Z = z_ - length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 4
-            temp_vector.X = x_ + length / 2.0f;
-            temp_vector.Y = y_ - length / 2.0f;
-            temp_vector.Z = z_ - length / 2.0f;
+            temp_vector.X = x_ + length / 8.0f;
+            temp_vector.Y = y_ - length / 8.0f;
+            temp_vector.Z = z_ - length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 5
-            temp_vector.X = x_ - length / 2.0f;
-            temp_vector.Y = y_ + length / 2.0f;
-            temp_vector.Z = z_ + length / 2.0f;
+            temp_vector.X = x_ - length / 8.0f;
+            temp_vector.Y = y_ + length / 8.0f;
+            temp_vector.Z = z_ + length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 6
-            temp_vector.X = x_ + length / 2.0f;
-            temp_vector.Y = y_ + length / 2.0f;
-            temp_vector.Z = z_ + length / 2.0f;
+            temp_vector.X = x_ + length / 8.0f;
+            temp_vector.Y = y_ + length / 8.0f;
+            temp_vector.Z = z_ + length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 7
-            temp_vector.X = x_ - length / 2.0f;
-            temp_vector.Y = y_ - length / 2.0f;
-            temp_vector.Z = z_ + length / 2.0f;
+            temp_vector.X = x_ - length / 8.0f;
+            temp_vector.Y = y_ - length / 8.0f;
+            temp_vector.Z = z_ + length / 8.0f;
             tempVertices.Add(temp_vector);
 
             //Titik 8
-            temp_vector.X = x_ + length / 2.0f;
-            temp_vector.Y = y_ - length / 2.0f;
-            temp_vector.Z = z_ + length / 2.0f;
+            temp_vector.X = x_ + length / 8.0f;
+            temp_vector.Y = y_ - length / 8.0f;
+            temp_vector.Z = z_ + length / 8.0f;
             tempVertices.Add(temp_vector);
 
             var tempIndices = new List<uint>
@@ -279,6 +279,88 @@ namespace ConsoleApp1
             vertices = tempVertices;
             indices = tempIndices;
         }
+
+
+        public void createBlock2(float x_, float y_, float z_, float length, float height, float depth)
+        {
+            var tempVertices = new List<Vector3>();
+            objectCenter = new Vector3(x_, y_, z_);
+            Vector3 temp_vector;
+
+            //Titik 1
+            temp_vector.X = x_ - length / 2.0f;
+            temp_vector.Y = y_ + height / 2.0f;
+            temp_vector.Z = z_ - depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 2
+            temp_vector.X = x_ + length / 2.0f;
+            temp_vector.Y = y_ + height / 2.0f;
+            temp_vector.Z = z_ - depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 3
+            temp_vector.X = x_ - length / 2.0f;
+            temp_vector.Y = y_ - height / 2.0f;
+            temp_vector.Z = z_ - depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 4
+            temp_vector.X = x_ + length / 2.0f;
+            temp_vector.Y = y_ - height / 2.0f;
+            temp_vector.Z = z_ - depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 5
+            temp_vector.X = x_ - length / 2.0f;
+            temp_vector.Y = y_ + height / 2.0f;
+            temp_vector.Z = z_ + depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 6
+            temp_vector.X = x_ + length / 2.0f;
+            temp_vector.Y = y_ + height / 2.0f;
+            temp_vector.Z = z_ + depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 7
+            temp_vector.X = x_ - length / 2.0f;
+            temp_vector.Y = y_ - height / 2.0f;
+            temp_vector.Z = z_ + depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            //Titik 8
+            temp_vector.X = x_ + length / 2.0f;
+            temp_vector.Y = y_ - height / 2.0f;
+            temp_vector.Z = z_ + depth / 2.0f;
+            tempVertices.Add(temp_vector);
+
+            var tempIndices = new List<uint>
+            {
+                //Back
+                //1, 2, 0,
+                //2, 1, 3,
+                //Top
+                5, 0, 4,
+                0, 5, 1,
+                //Right
+                5, 3, 1,
+                3, 5, 7,
+                //Left
+                0, 6, 4,
+                6, 0, 2,
+                //Front
+                4, 7, 5,
+                7, 4, 6,
+                //Bottom
+                3, 6, 2,
+                6, 3, 7
+            };
+            vertices = tempVertices;
+            indices = tempIndices;
+        }
+
+
 
         public void createEllipsoid(float x, float y, float z, float radX, float radY, float radZ, float sectorCount, float stackCount)
         {

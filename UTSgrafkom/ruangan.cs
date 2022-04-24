@@ -53,7 +53,7 @@ namespace UTSgrafkom
             }
         }
 
-        public void render(Matrix4 cameraView, Matrix4 cameraProjection) 
+        public void Render(Matrix4 cameraView, Matrix4 cameraProjection) 
         {
             foreach (Asset3d i in listTembok)
             {
