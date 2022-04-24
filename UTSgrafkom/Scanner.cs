@@ -16,9 +16,14 @@ namespace UTSgrafkom
         int counter;
         int increment = 1;
         float speed = 0.005f;
+        float deg = 0.5f;
+        float ratio = 0.1f;
 
         List<Asset3d2> listObject = new List<Asset3d2>();
+        Asset3d2 badan;
         Asset3d2 laser;
+        Asset3d2 kakiL, kakiR;
+        Asset3d2 line;
 
         public Scanner()
         {
@@ -29,6 +34,7 @@ namespace UTSgrafkom
             Vector3 red = new Vector3(247 / 255f, 7 / 255f, 5 / 255f);
             Vector3 darkRed = new Vector3(200 / 255f, 0 / 255f, 0 / 255f);
             Vector3 white = new Vector3(1, 1, 1);
+            Vector3 blue = new Vector3(26/255f, 235/255f, 255/255f);
 
 
             Asset3d2 alas = new Asset3d2(darkGrey);
@@ -90,7 +96,7 @@ namespace UTSgrafkom
 
             //KARAKTER
 
-            Asset3d2 badan = new Asset3d2(red);
+            badan = new Asset3d2(red);
             badan.tabung(0, 0, 0, 0.1f, 0.1f, 0.005f);
             badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
 
@@ -105,12 +111,12 @@ namespace UTSgrafkom
             google.createEllipsoid(0, 0, 0, 0.06f, 0.03f, 0.01f, 25, 25);
             google.translate(0, 0.1f, 0.1f);
 
-            Asset3d2 kakiL = new Asset3d2(darkRed);
+            kakiL = new Asset3d2(darkRed);
             kakiL.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
             kakiL.rotate(kakiL.objectCenter, Vector3.UnitX, 90f);
             kakiL.translate(-0.05f, -0.15f, 0f);
 
-            Asset3d2 kakiR = new Asset3d2(darkRed);
+            kakiR = new Asset3d2(darkRed);
             kakiR.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
             kakiR.rotate(kakiR.objectCenter, Vector3.UnitX, 90f);
             kakiR.translate(0.05f, -0.15f, 0f);
@@ -129,6 +135,9 @@ namespace UTSgrafkom
             //Atur posisis
             badan.translate(2f, -0.2f, -0.5f);
             badan.rotate(badan.objectCenter, Vector3.UnitY, 15f);
+
+            listObject.Add(kakiL);
+            badan.child.Remove(kakiL);
 
 
             //SCREEN
@@ -161,7 +170,7 @@ namespace UTSgrafkom
             stand.translate(0f, -0.3f, 0f);
             layar.child.Add(stand);
 
-            Asset3d2 line = new Asset3d2(white);
+            line = new Asset3d2(white);
             line.tabung(0, 0, 0, 0.01f, 0.01f, 0.02f);
             line.rotate(line.objectCenter, Vector3.UnitY, 90f);
             line.translate(0.2f, 0, 0.03f);
@@ -185,9 +194,48 @@ namespace UTSgrafkom
             layar.rotate(layar.objectCenter, Vector3.UnitY, -35f);
 
 
+            //KABEL LAYAR
+            Asset3d2 kabel = new Asset3d2(red);
+            kabel.prepareVertices();
+            kabel.setControlCoordinate(0, 0, 0);
+            kabel.setControlCoordinate(0, 1f, 0);
+            kabel.setControlCoordinate(1f, 1f, 0);
+            kabel.setControlCoordinate(1f, 0f, 0);
+            kabel.setControlCoordinate(1f, -1f, 0);
+            kabel.setControlCoordinate(2f, -1f, 0);
+            kabel.setControlCoordinate(2f, 0f, 0);
+            kabel.setVertices(kabel.createCurveBazier());
+
+            //posisi kabel 
+            kabel.scale(0.25f, 0.25f, 0f);
+            kabel.rotate(kabel.objectCenter, Vector3.UnitX, 90f);
+            kabel.translate(2f, -0.4f, -0.5f);
+
+            Asset3d2 kabel2 = new Asset3d2(blue);
+            kabel2.prepareVertices();
+            kabel2.setControlCoordinate(0, 0, 0);
+            kabel2.setControlCoordinate(0, 0.25f, 0);
+            kabel2.setControlCoordinate(1f, 0.25f, 0);
+            kabel2.setControlCoordinate(1f, 0f, 0);
+            kabel2.setControlCoordinate(1f, -0.25f, 0);
+            kabel2.setControlCoordinate(2f, -0.25f, 0);
+            kabel2.setControlCoordinate(2f, 0f, 0);
+            kabel2.setVertices(kabel2.createCurveBazier());
+
+            //posisi kabel 
+            kabel2.scale(0.25f, 0.25f, 0f);
+            kabel2.rotate(kabel2.objectCenter, Vector3.UnitX, 90f);
+            kabel2.translate(2f, -0.4f, -0.5f);
+
+
+
             listObject.Add(alas);
             listObject.Add(badan);
             listObject.Add(layar);
+            listObject.Add(kabel);
+            listObject.Add(kabel2);
+
+            
         }
 
         public void load(int SizeX, int SizeY)
@@ -207,12 +255,42 @@ namespace UTSgrafkom
 
             counter += increment;
 
+            //animasi
             laser.translate(0, speed, 0);
+            badan.rotate(badan.objectCenter, Vector3.UnitZ, deg);
 
+            //setting waktu
+            //untuk scanner
             if (counter <= 0 || counter >= 70)
             {
                 speed *= -1;
                 increment *= -1;
+            }
+
+            //untuk karakter
+            if (counter == 35)
+            {
+                deg *= -1;
+            }
+
+            if (counter == 0)
+            {
+                //tuker kaki kiri ke kanan
+                listObject.Remove(kakiR);
+                listObject.Add(kakiL);
+
+                badan.child.Remove(kakiL);
+                badan.child.Add(kakiR);
+            }
+
+            if (counter == 70)
+            {
+                //tuker kaki kiri ke kanan
+                listObject.Remove(kakiL);
+                listObject.Add(kakiR);
+
+                badan.child.Remove(kakiR);
+                badan.child.Add(kakiL);
             }
         }
     }

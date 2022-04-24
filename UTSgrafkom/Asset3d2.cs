@@ -32,6 +32,11 @@ namespace ConsoleApp1
         public Vector3 objectCenter = Vector3.Zero;         // Titik tengah objek
 
         public List<Asset3d2> child = new List<Asset3d2>();   // Sistem Hierarchical Object ==> List untuk menampung objek - objek child.
+        
+        //bezier
+        private int index;
+        private float[] verticesCurve;
+        private int[] _pascal;
 
         public Asset3d2(Vector3 color)
         {
@@ -464,6 +469,71 @@ namespace ConsoleApp1
                 }
             }
         }
+
+        //bezierr
+        public void prepareVertices()
+        {
+            verticesCurve = new float[1080];
+            index = 0;
+        }
+        public void setControlCoordinate(float x, float y, float z)
+        {
+            verticesCurve[index * 3] = x;
+            verticesCurve[index * 3 + 1] = y;
+            verticesCurve[index * 3 + 2] = z;
+            index++;
+        }
+        public List<int> getRow(int rowIndex)
+        {
+            List<int> currow = new List<int>();
+            //------
+            currow.Add(1);
+            if (rowIndex == 0)
+            {
+                return currow;
+            }
+            //-----
+            List<int> prev = getRow(rowIndex - 1);
+            for (int i = 1; i < prev.Count; i++)
+            {
+                int curr = prev[i - 1] + prev[i];
+                currow.Add(curr);
+            }
+            currow.Add(1);
+            return currow;
+
+        }
+        public List<Vector3> createCurveBazier()
+        {
+            List<Vector3> _verticesBazier = new List<Vector3>();
+            List<int> pascal = getRow(index - 1);
+            _pascal = pascal.ToArray();
+            for (float t = 0; t <= 1; t += 0.01f)
+            {
+                Vector3 p = getP(index, t);
+                _verticesBazier.Add(p);
+            }
+            return _verticesBazier;
+        }
+        public Vector3 getP(int n, float t)
+        {
+            Vector3 p = new Vector3(0, 0, 0);
+            float k;
+            for (int i = 0; i < n; i++)
+            {
+                k = (float)Math.Pow((1 - t), n - 1 - i) * (float)Math.Pow(t, i) * _pascal[i];
+                p.X += k * verticesCurve[i * 3];
+                p.Y += k * verticesCurve[i * 3 + 1];
+                p.Z += k * verticesCurve[i * 3 + 2];
+
+            }
+            return p;
+        }
+        public void setVertices(List<Vector3> temp)
+        {
+            vertices = temp;
+        }
+        //end bezier
 
         #endregion
 
