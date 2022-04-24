@@ -14,6 +14,9 @@ namespace UTSgrafkom
         int counter = 0;
         float degr = -0.2f;
         float degrKaki = -1.2f;
+        float scaleAngel = 0.003f;
+
+        float counterAngel = 0;
         int counterKaki = 0;
         int incrementKaki = 1;
         
@@ -22,7 +25,7 @@ namespace UTSgrafkom
 
         Vector3 pusatTutup;
         List<Asset3d2> listObject = new List<Asset3d2>();
-        Asset3d2 tutupTombol, kakiL, kakiR, kabelTombol, kabelTombol2;
+        Asset3d2 tutupTombol, kakiL, kakiR, kabelTombol, kabelTombol2, angel;
 
         public Meja()
         {
@@ -41,7 +44,7 @@ namespace UTSgrafkom
             Asset3d2 alas = new Asset3d2(darkGrey);
             alas.tabung(0f, 0f, 0f, 0.3f, 0.3f, 0.0015f);
 
-            //alas luar abu-abu
+            //Alas luar abu-abu
             Asset3d2 tutupAbu = new Asset3d2(grey);
             tutupAbu.createEllipsoid(0, 0, 0, 0.3f, 0.3f, 0f, 30, 30);
             alas.child.Add(tutupAbu);
@@ -92,7 +95,7 @@ namespace UTSgrafkom
             tutupTombol.translate(0f, 0f, 0.03f);
 
 
-            //rotate supaya keliatan tidur
+            //Rotate supaya terlihat tidur
             alas.rotate(new Vector3(0, 0, 0), Vector3.UnitX, -90f);
             alas.translate(0f, -0.3f, -0.5f);
             listObject.Add(alas);
@@ -130,7 +133,7 @@ namespace UTSgrafkom
             tas.createBlock(0, 0, 0, 0.18f, 0.18f, 0.07f);
             tas.translate(0, 0.05f, -0.1f);
 
-            Asset3d2 angel = new Asset3d2(softYellow);
+            angel = new Asset3d2(softYellow);
             angel.createTorus(0, 0, 0, 0.06f, 0.010f, 30, 30);
             angel.translate(0, 0.25f, 0);
 
@@ -146,7 +149,8 @@ namespace UTSgrafkom
             badan.translate(0.6f, -0.3f, -0.5f);
             listObject.Add(badan);
 
-            //Tembok
+
+            //Tembok & Lantai
             Asset3d2 tembokBlkgAtas = new Asset3d2(new Vector3(0 / 255f, 247 / 255f, 247 / 255f));
             tembokBlkgAtas.createBlock(0, 0, 0, 2, 0.7f, 0);
             tembokBlkgAtas.translate(0,0.6f,-0.999f);
@@ -182,6 +186,8 @@ namespace UTSgrafkom
             lantai.translate(0, -0.449f, -0.5f);
             listObject.Add(lantai);
 
+
+            //Kabel (Curva Berzier)
             kabelTombol = new Asset3d2(new Vector3(red));
             kabelTombol.prepareVertices();
             kabelTombol.setControlCoordinate(0f, 0f, 0f);
@@ -219,6 +225,7 @@ namespace UTSgrafkom
                 listObject[i].render(cameraView, cameraProjection);
             }
 
+            //Animasi tutup tombol
             Vector3 temp = new Vector3(0, 0.02f, 0.011f);
             tutupTombol.rotate(pusatTutup - temp, Vector3.UnitX, degr);
             counter += increment;
@@ -236,6 +243,7 @@ namespace UTSgrafkom
                 increment *= -1;
             }
 
+            //Animasi kaki
             kakiR.rotate(kakiR.objectCenter, Vector3.UnitZ, degrKaki);;
             kakiL.rotate(kakiL.objectCenter, Vector3.UnitZ, -degrKaki);
             counterKaki += incrementKaki;
@@ -243,6 +251,15 @@ namespace UTSgrafkom
                 degrKaki *= -1;
                 incrementKaki *= -1;
             }
+
+            //Animasi angel
+            angel.scale(1-scaleAngel, 1, 1 - scaleAngel);
+            counterAngel += scaleAngel;
+            if(counterAngel >= 0.2f || counterAngel <= -0.2f)
+            {
+                scaleAngel *= -1;
+            }
+
         }
     }
 }
