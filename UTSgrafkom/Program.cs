@@ -14,7 +14,7 @@ namespace UTSgrafkom
             var nativeWindowSettings = new NativeWindowSettings()
             {
                 Size = new OpenTK.Mathematics.Vector2i(1500, 1500),
-                Title = "Fall Guys"
+                Title = "Among Us"
             };
             using (var window = new Windows(GameWindowSettings.Default, nativeWindowSettings))
             {
