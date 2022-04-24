@@ -15,7 +15,7 @@ namespace UTSgrafkom
         Vector3 warna;
         List<Asset3d> listObject = new List<Asset3d>();
         double time = 0;
-        Asset3d ring1, ring2,tabungBesar,tutup,tabungMedium,tutup2,tabung1,bola1,tabung2,bola2,tabung3,bola3,tabung4,bola4,tabung5,bola5,tabung6,bola6,holder, bolaReaktor;
+        Asset3d ring1, ring2,tabungBesar,tutup,tabungMedium,tutup2,tabung1,bola1,tabung2,bola2,tabung3,bola3,tabung4,bola4,tabung5,bola5,tabung6,bola6,holder, bolaReaktor, kabel, controlBox;
         public reactor(Vector3 color) : base(color)
         {
             warna = new Vector3(color);
@@ -51,56 +51,56 @@ namespace UTSgrafkom
             tabungMedium.translate(-2.49f, -0.2f, -0.5f);
 
             tabung1 = new Asset3d(new Vector3(210/255f, 231/255f, 230/255f));
-            tabung1.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung1.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung1.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola1 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola1.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola1.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola1.translate(0, 0f, -0.3f);
             tabung1.child.Add(bola1);
 
             tabung2 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            tabung2.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung2.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung2.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola2 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola2.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola2.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola2.translate(0, 0f, -0.3f);
             tabung2.child.Add(bola2);
 
             tabung3 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            tabung3.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung3.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung3.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola3 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola3.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola3.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola3.translate(0, 0f, -0.3f);
             tabung3.child.Add(bola3);
 
             tabung4 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            tabung4.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung4.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung4.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola4 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola4.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola4.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola4.translate(0, 0f, -0.3f);
             tabung4.child.Add(bola4);
 
             tabung5 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            tabung5.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung5.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung5.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola5 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola5.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola5.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola5.translate(0, 0f, -0.3f);
             tabung5.child.Add(bola5);
 
             tabung6 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            tabung6.tabung(0, 0, 0, 0.02f, 0.02f, 0.01f);
+            tabung6.tabung(0, 0, 0, 0.02f, 0.02f, 0.012f);
             tabung6.rotate(tabungMedium.objectCenter, Vector3.UnitX, 90f);
 
             bola6 = new Asset3d(new Vector3(210 / 255f, 231 / 255f, 230 / 255f));
-            bola6.createSphere(0, -0.5f, 0, 0.02f, 25, 25);
+            bola6.createSphere(0, -0.455f, 0, 0.02f, 25, 25);
             bola6.translate(0, 0f, -0.3f);
             tabung6.child.Add(bola6);
 
@@ -116,17 +116,33 @@ namespace UTSgrafkom
             ring2.rotate(ring1.objectCenter, Vector3.UnitY, -45);
             ring2.translate(-0.05f, -0.15f, 0.075f);
 
-            
+            controlBox = new Asset3d(new Vector3(1f, 0, 0));
+            controlBox.createBoxVertices(0, 0, 0);
+            controlBox.scale(1f, 1f,0.5f);
+            controlBox.rotate(controlBox.objectCenter, Vector3.UnitY, 90);
+            controlBox.translate(-2.95f, -0.3f, -0.2f);
+
+            kabel = new Asset3d(new Vector3(1, 0, 1));
+            kabel.prepareVertices();
+            kabel.setControlCoordinate(-2.65f, -0.2f, -0.5f);
+            kabel.setControlCoordinate(-2.7f, -0.2f, -0.45f);
+            kabel.setControlCoordinate(-2.73f, -0.225f, -0.2f);
+            kabel.setControlCoordinate(-2.78f, -0.225f, -0.2f);
+            kabel.setControlCoordinate(-2.80f, -0.25f, -0.2f);
+            kabel.setControlCoordinate(-2.98f, -0.275f, -0.175f);
+            List<Vector3> _verticesBazier = kabel.createCurveBazier();
+            kabel.setVertices(_verticesBazier);
+
             tabungBesar.child.Add(ring1);
             tabungBesar.child.Add(ring2);
 
-            tabungBesar.translate(-2.49f, -0.4f, -0.5f);
-            tabung1.translate(-2.49f, 0.7f, -0.095f);
-            tabung2.translate(-2.4f, 0.7f, -0.15f);
-            tabung3.translate(-2.58f, 0.7f, -0.15f);
-            tabung4.translate(-2.58f, 0.7f, -0.25f);
-            tabung5.translate(-2.4f, 0.7f, -0.25f);
-            tabung6.translate(-2.49f, 0.7f, -0.31f);
+            tabungBesar.translate(-2.49f, -0.44f, -0.5f);
+            tabung1.translate(-2.49f, 0.65f, -0.095f);
+            tabung2.translate(-2.4f, 0.65f, -0.15f);
+            tabung3.translate(-2.58f, 0.65f, -0.15f);
+            tabung4.translate(-2.58f, 0.65f, -0.25f);
+            tabung5.translate(-2.4f, 0.65f, -0.25f);
+            tabung6.translate(-2.49f, 0.65f, -0.31f);
 
             listObject.Add(tabungBesar);
             listObject.Add(tutup);
@@ -150,6 +166,10 @@ namespace UTSgrafkom
 
             listObject.Add(ring1);
             listObject.Add(ring2);
+
+            listObject.Add(kabel);
+
+            listObject.Add(controlBox);
         }
         static class Constants
         {
