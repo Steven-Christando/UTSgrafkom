@@ -49,13 +49,13 @@ namespace UTSgrafkom
 
             Karakter karakter = new Karakter(0f, 0f, 0f, new Vector3(0, 0.5f, 1));
             karakter.load(Size.X,Size.Y);
-            
+
 
             //SCANNER
-            /*Scanner scanner = new Scanner();
+            Scanner scanner = new Scanner();
             scanner.load(Size.X, Size.Y);
 
-            listObject.Add(scanner);*/
+            listObject.Add(scanner);
 
             //dari reactor
             ruang = new ruangan(new Vector3(0, 0.5f, 1));
