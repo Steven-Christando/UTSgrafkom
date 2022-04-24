@@ -29,6 +29,8 @@ namespace UTSgrafkom
             Vector3 darkRed = new Vector3(174 / 255f, 0 / 255f, 0 / 255f);
             Vector3 softYellow = new Vector3(226 / 255f, 198 / 152f, 87 / 255f);
             Vector3 softBlue = new Vector3(194 / 255f, 222 / 255f, 235 / 255f);
+            Vector3 orange = new Vector3(248 / 255f, 180 / 255f, 0 / 255f);
+            Vector3 darkOrange = new Vector3(247 / 255f, 150 / 255f, 0 / 255f);
 
 
             Asset3d2 alas = new Asset3d2(darkGrey);
@@ -93,6 +95,52 @@ namespace UTSgrafkom
 
             pusatTutup = tutupTombol.objectCenter;
 
+            //KARAKTER
+
+            Asset3d2 badan = new Asset3d2(orange);
+            badan.tabung(0, 0, 0, 0.1f, 0.1f, 0.005f);
+            badan.rotate(badan.objectCenter, Vector3.UnitX, 90f);
+
+            Asset3d2 kepala = new Asset3d2(orange);
+            kepala.createEllipsoid(0, 0, 0, 0.1f, 0.09f, 0.1f, 30, 30);
+            kepala.translate(0f, 0.1f, 0f);
+
+            Asset3d2 pantat = new Asset3d2(orange);
+            pantat.createEllipsoid(0, 0, 0, 0.1f, 0.08f, 0.1f, 30, 30);
+
+            Asset3d2 google = new Asset3d2(new Vector3(147 / 255f, 193 / 255f, 213 / 255f));
+            google.createEllipsoid(0, 0, 0, 0.06f, 0.03f, 0.01f, 25, 25);
+            google.translate(0, 0.1f, 0.1f);
+
+            Asset3d2 kakiL = new Asset3d2(darkOrange);
+            kakiL.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
+            kakiL.rotate(kakiL.objectCenter, Vector3.UnitX, 120f);
+            kakiL.translate(-0.05f, -0.15f, -0.05f);
+
+            Asset3d2 kakiR = new Asset3d2(darkOrange);
+            kakiR.tabung(0, 0, 0, 0.04f, 0.04f, 0.007f);
+            kakiR.rotate(kakiR.objectCenter, Vector3.UnitX, 60f);
+            kakiR.translate(0.05f, -0.15f, 0.05f);
+
+            Asset3d2 tas = new Asset3d2(darkOrange);
+            tas.createBlock(0, 0, 0, 0.18f, 0.18f, 0.07f);
+            tas.translate(0, 0.05f, -0.1f);
+
+            Asset3d2 angel = new Asset3d2(softYellow);
+            angel.createTorus(0, 0, 0, 0.06f, 0.010f, 30, 30);
+            angel.translate(0, 0.25f, 0);
+
+            kepala.child.Add(google);
+            badan.child.Add(kepala);
+            badan.child.Add(pantat);
+            badan.child.Add(kakiL);
+            badan.child.Add(kakiR);
+            badan.child.Add(tas);
+            badan.child.Add(angel);
+
+            badan.rotate(badan.objectCenter, Vector3.UnitY, -45f);
+            badan.translate(0.6f, -0.3f, -0.5f);
+            listObject.Add(badan);
         }
 
         public void load(int SizeX, int SizeY)
