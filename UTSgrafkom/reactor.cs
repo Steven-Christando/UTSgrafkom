@@ -15,7 +15,7 @@ namespace UTSgrafkom
         Vector3 warna;
         List<Asset3d> listObject = new List<Asset3d>();
         double time = 0;
-        Asset3d ring1, ring2,tabungBesar,tutup,tabungMedium,tutup2,tabung1,bola1,tabung2,bola2,tabung3,bola3,tabung4,bola4,tabung5,bola5,tabung6,bola6,holder, bolaReaktor, kabel, controlBox;
+        Asset3d ring1, ring2,tabungBesar,tutup,tabungMedium,tutup2,tabung1,bola1,tabung2,bola2,tabung3,bola3,tabung4,bola4,tabung5,bola5,tabung6,bola6,holder, bolaReaktor, kabel1, kabel2, kabel3, controlBox;
         public reactor(Vector3 color) : base(color)
         {
             warna = new Vector3(color);
@@ -116,22 +116,44 @@ namespace UTSgrafkom
             ring2.rotate(ring1.objectCenter, Vector3.UnitY, -45);
             ring2.translate(-0.05f, -0.15f, 0.075f);
 
-            controlBox = new Asset3d(new Vector3(1f, 0, 0));
+            controlBox = new Asset3d(new Vector3(0, 0, 0));
             controlBox.createBoxVertices(0, 0, 0);
             controlBox.scale(1f, 1f,0.5f);
             controlBox.rotate(controlBox.objectCenter, Vector3.UnitY, 90);
             controlBox.translate(-2.95f, -0.3f, -0.2f);
 
-            kabel = new Asset3d(new Vector3(1, 0, 1));
-            kabel.prepareVertices();
-            kabel.setControlCoordinate(-2.65f, -0.2f, -0.5f);
-            kabel.setControlCoordinate(-2.7f, -0.2f, -0.45f);
-            kabel.setControlCoordinate(-2.73f, -0.225f, -0.2f);
-            kabel.setControlCoordinate(-2.78f, -0.225f, -0.2f);
-            kabel.setControlCoordinate(-2.80f, -0.25f, -0.2f);
-            kabel.setControlCoordinate(-2.98f, -0.275f, -0.175f);
-            List<Vector3> _verticesBazier = kabel.createCurveBazier();
-            kabel.setVertices(_verticesBazier);
+            kabel1 = new Asset3d(new Vector3(1, 0, 0));
+            kabel1.prepareVertices();
+            kabel1.setControlCoordinate(-2.65f, -0.2f, -0.5f);
+            kabel1.setControlCoordinate(-2.7f, -0.2f, -0.55f);
+            kabel1.setControlCoordinate(-2.73f, -0.225f, -0.4f);
+            kabel1.setControlCoordinate(-2.78f, -0.225f, -0.4f);
+            kabel1.setControlCoordinate(-2.80f, -0.25f, -0.3f);
+            kabel1.setControlCoordinate(-2.98f, -0.275f, -0.175f);
+            List<Vector3> _verticesBazier1 = kabel1.createCurveBazier();
+            kabel1.setVertices(_verticesBazier1);
+
+            kabel2 = new Asset3d(new Vector3(0, 1, 0));
+            kabel2.prepareVertices();
+            kabel2.setControlCoordinate(-2.4f, -0.2f, -0.65f);
+            kabel2.setControlCoordinate(-2.7f, -0.3f, -0.55f);
+            kabel2.setControlCoordinate(-2.73f, -0.255f, -0.4f);
+            kabel2.setControlCoordinate(-2.78f, -0.35f, -0.4f);
+            kabel2.setControlCoordinate(-2.80f, -0.28f, -0.3f);
+            kabel2.setControlCoordinate(-2.98f, -0.24f, -0.175f);
+            List<Vector3> _verticesBazier2 = kabel2.createCurveBazier();
+            kabel2.setVertices(_verticesBazier2);
+
+            kabel3 = new Asset3d(new Vector3(0, 0, 1));
+            kabel3.prepareVertices();
+            kabel3.setControlCoordinate(-2.65f, -0.2f, -0.5f);
+            kabel3.setControlCoordinate(-2.7f, -0.035f, -0.55f);
+            kabel3.setControlCoordinate(-2.73f, -0.15f, -0.4f);
+            kabel3.setControlCoordinate(-2.78f, -0.05f, -0.4f);
+            kabel3.setControlCoordinate(-2.80f, -0.2f, -0.3f);
+            kabel3.setControlCoordinate(-2.98f, -0.3f, -0.175f);
+            List<Vector3> _verticesBazier3 = kabel3.createCurveBazier();
+            kabel3.setVertices(_verticesBazier3);
 
             tabungBesar.child.Add(ring1);
             tabungBesar.child.Add(ring2);
@@ -167,7 +189,9 @@ namespace UTSgrafkom
             listObject.Add(ring1);
             listObject.Add(ring2);
 
-            listObject.Add(kabel);
+            listObject.Add(kabel1);
+            listObject.Add(kabel2);
+            listObject.Add(kabel3);
 
             listObject.Add(controlBox);
         }
